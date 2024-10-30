@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "subjects",
+  "info": {
+    "singularName": "subject",
+    "pluralName": "subjects",
+    "displayName": "Subject",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "subject_id": {
+      "type": "string",
+      "unique": true
+    },
+    "code": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "year_level": {
+      "type": "integer"
+    },
+    "semester": {
+      "type": "string"
+    },
+    "curriculum_id": {
+      "type": "string"
+    }
+  }
+}

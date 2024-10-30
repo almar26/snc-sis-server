@@ -1,0 +1,63 @@
+{
+  "kind": "collectionType",
+  "collectionName": "students",
+  "info": {
+    "singularName": "student",
+    "pluralName": "students",
+    "displayName": "Student",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "id_number": {
+      "type": "string",
+      "unique": true
+    },
+    "student_no": {
+      "type": "string",
+      "unique": false
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "middle_name": {
+      "type": "string"
+    },
+    "course": {
+      "type": "string"
+    },
+    "major": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "string"
+    },
+    "birthday": {
+      "type": "date"
+    },
+    "age": {
+      "type": "integer"
+    },
+    "school_year_start": {
+      "type": "integer"
+    },
+    "school_year_end": {
+      "type": "integer"
+    },
+    "semester": {
+      "type": "string"
+    },
+    "address": {
+      "type": "text"
+    },
+    "student_status": {
+      "type": "string"
+    }
+  }
+}

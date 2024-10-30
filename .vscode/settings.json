@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "PostgreSQL Connetion",
+            "database": "snc_sis_v5",
+            "username": "postgres",
+            "password": "snc2004"
+        }
+    ]
+}

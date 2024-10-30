@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "teacher_accounts",
+  "info": {
+    "singularName": "teacher-account",
+    "pluralName": "teacher-accounts",
+    "displayName": "TeacherAccount",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "teacher_id": {
+      "type": "string"
+    },
+    "faculty_no": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "middle_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "department": {
+      "type": "string"
+    },
+    "birthday": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "string"
+    },
+    "teacher_status": {
+      "type": "string"
+    }
+  }
+}

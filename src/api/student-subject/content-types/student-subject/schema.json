@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "student_subjects",
+  "info": {
+    "singularName": "student-subject",
+    "pluralName": "student-subjects",
+    "displayName": "StudentSubject"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "id_number": {
+      "type": "string"
+    },
+    "student_no": {
+      "type": "string"
+    },
+    "subject_id": {
+      "type": "string"
+    },
+    "subject_code": {
+      "type": "string"
+    },
+    "course_code": {
+      "type": "string"
+    },
+    "course_description": {
+      "type": "string"
+    },
+    "section": {
+      "type": "string"
+    },
+    "unit": {
+      "type": "integer"
+    },
+    "grade": {
+      "type": "decimal"
+    },
+    "numeric_grade": {
+      "type": "decimal"
+    },
+    "school_year": {
+      "type": "string"
+    },
+    "semester": {
+      "type": "string"
+    },
+    "teacherid": {
+      "type": "string"
+    },
+    "subject_status": {
+      "type": "string"
+    }
+  }
+}

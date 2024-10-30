@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "semesters",
+  "info": {
+    "singularName": "semester",
+    "pluralName": "semesters",
+    "displayName": "Semester",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "semester_id": {
+      "type": "string"
+    },
+    "semester_name": {
+      "type": "string"
+    },
+    "semester_status": {
+      "type": "string"
+    }
+  }
+}

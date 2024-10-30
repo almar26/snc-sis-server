@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "excel_imports",
+  "info": {
+    "singularName": "excel-import",
+    "pluralName": "excel-imports",
+    "displayName": "Excel Import"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "dob": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    }
+  }
+}
