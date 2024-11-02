@@ -124,7 +124,7 @@ module.exports = createCoreController('api::student.student', ({ strapi }) => ({
 
     async getStudentDetails(ctx) {
         try {
-            console.log("[getStudentDetails] Incoming Reques");
+            console.log("[getStudentDetails] Incoming Request");
             const { documentid } = ctx.params;
 
             let myPayload = {
@@ -141,14 +141,14 @@ module.exports = createCoreController('api::student.student', ({ strapi }) => ({
                 console.log(err);
             })
 
-            if (result.length < 0) {
-                ctx.status = 200;
-                return ctx.body = {
-                    data: [],
-                    message: "No Record Found!",
-                    status: "failed"
-                };
-            }
+            // if (result.length <= 0) {
+            //     ctx.status = 200;
+            //     return ctx.body = {
+            //         data: [],
+            //         message: "No Record Found!",
+            //         status: "failed"
+            //     };
+            // }
 
             if (result) {
                 console.log(result);

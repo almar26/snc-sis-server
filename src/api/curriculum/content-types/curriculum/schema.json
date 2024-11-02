@@ -4,14 +4,15 @@
   "info": {
     "singularName": "curriculum",
     "pluralName": "curricula",
-    "displayName": "Curriculum"
+    "displayName": "Curriculum",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
-    "curriculum_id": {
+    "course_id": {
       "type": "string"
     },
     "course": {

@@ -1,5 +1,7 @@
 'use strict';
 
+const { filter } = require('../../../../config/middlewares');
+
 /**
  * course controller
  */
@@ -23,6 +25,46 @@ module.exports = createCoreController('api::course.course', ({ strapi }) => ({
 
         } catch (err) {
             console.log("[creaetCourse] Error: ", err.message);
+            return ctx.badRequest(err.message, err);
+        }
+    },
+
+    async getCourseDetails(ctx) {
+        try {
+            console.log("[getCourseDetails] Incoming Request");
+            const { documentid } = ctx.params;
+
+            let myPayload = {
+                data: [],
+                message: "Successfully fetch data!",
+                status: "success"
+            };
+
+            const result = await strapi.entityService.findMany("api::course.course", {
+                filters: {
+                    documentId: { $eq: documentid }
+                }
+            }).catch(err => {
+               console.log(err);
+            })
+
+            // if (result.length <= 0) {
+            //     ctx.status = 200;
+            //     return ctx.body = {
+            //         data: [],
+            //         message: "No Record Found!",
+            //         status: "failed"
+            //     };
+            // }
+
+            if (result) {
+                console.log(result);
+                ctx.status = 200;
+                return ctx.body = result;
+            }
+
+        } catch (err) {
+            console.log("[getCourseDetails] Error: ", err.message);
             return ctx.badRequest(err.message, err);
         }
     },

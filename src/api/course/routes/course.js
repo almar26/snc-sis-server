@@ -37,6 +37,11 @@ const myExtraRoutes = [
         method: 'GET',
         path: '/course/list',
         handler: 'course.getCourseList'
+    },
+    {
+        method: 'GET',
+        path: '/course/details/:documentid',
+        handler: 'course.getCourseDetails'
     }
 ]
 

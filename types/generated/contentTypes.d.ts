@@ -520,12 +520,13 @@ export interface ApiCurriculumCurriculum extends Struct.CollectionTypeSchema {
     singularName: 'curriculum';
     pluralName: 'curricula';
     displayName: 'Curriculum';
+    description: '';
   };
   options: {
     draftAndPublish: false;
   };
   attributes: {
-    curriculum_id: Schema.Attribute.String;
+    course_id: Schema.Attribute.String;
     course: Schema.Attribute.String;
     major: Schema.Attribute.String;
     year: Schema.Attribute.String;
