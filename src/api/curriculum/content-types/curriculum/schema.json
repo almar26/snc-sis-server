@@ -15,13 +15,16 @@
     "course_id": {
       "type": "string"
     },
-    "course": {
+    "course_code": {
       "type": "string"
     },
     "major": {
       "type": "string"
     },
     "year": {
+      "type": "string"
+    },
+    "course_description": {
       "type": "string"
     }
   }

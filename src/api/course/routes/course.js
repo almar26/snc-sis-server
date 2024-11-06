@@ -3,7 +3,7 @@
 /**
  * course router
  */
-
+// @ts-ignore
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
 const defaultRouter = createCoreRouter("api::course.course");

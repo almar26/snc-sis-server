@@ -1,11 +1,9 @@
 'use strict';
 
-const { filter } = require('../../../../config/middlewares');
-
 /**
  * course controller
  */
-
+// @ts-ignore
 const { createCoreController } = require('@strapi/strapi').factories;
 
 module.exports = createCoreController('api::course.course', ({ strapi }) => ({
@@ -74,7 +72,8 @@ module.exports = createCoreController('api::course.course', ({ strapi }) => ({
             let {
                 course_code,
                 course_description,
-                major
+                major,
+                year
             } = ctx.request.body;
 
             let myPayload = {
@@ -87,7 +86,8 @@ module.exports = createCoreController('api::course.course', ({ strapi }) => ({
                 data: {
                   code: course_code,
                   description: course_description,
-                  major: major  
+                  major: major,
+                  year: year
                 }
             })
 

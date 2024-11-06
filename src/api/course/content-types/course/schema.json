@@ -24,6 +24,10 @@
     "course_status": {
       "type": "string",
       "default": "active"
+    },
+    "year": {
+      "type": "integer",
+      "default": 0
     }
   }
 }

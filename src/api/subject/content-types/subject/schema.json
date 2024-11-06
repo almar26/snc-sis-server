@@ -22,9 +22,6 @@
     "title": {
       "type": "string"
     },
-    "unit": {
-      "type": "string"
-    },
     "year_level": {
       "type": "integer"
     },
@@ -32,6 +29,21 @@
       "type": "string"
     },
     "curriculum_id": {
+      "type": "string"
+    },
+    "units": {
+      "type": "integer",
+      "default": 0
+    },
+    "lec": {
+      "type": "integer",
+      "default": 0
+    },
+    "lab": {
+      "type": "integer",
+      "default": 0
+    },
+    "resultant": {
       "type": "string"
     }
   }

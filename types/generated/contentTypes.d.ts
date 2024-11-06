@@ -502,6 +502,7 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
     major: Schema.Attribute.String;
     course_status: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'active'>;
+    year: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -527,9 +528,10 @@ export interface ApiCurriculumCurriculum extends Struct.CollectionTypeSchema {
   };
   attributes: {
     course_id: Schema.Attribute.String;
-    course: Schema.Attribute.String;
+    course_code: Schema.Attribute.String;
     major: Schema.Attribute.String;
     year: Schema.Attribute.String;
+    course_description: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -703,10 +705,13 @@ export interface ApiSubjectSubject extends Struct.CollectionTypeSchema {
     subject_id: Schema.Attribute.String & Schema.Attribute.Unique;
     code: Schema.Attribute.String;
     title: Schema.Attribute.String;
-    unit: Schema.Attribute.String;
     year_level: Schema.Attribute.Integer;
     semester: Schema.Attribute.String;
     curriculum_id: Schema.Attribute.String;
+    units: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    lec: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    lab: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    resultant: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
