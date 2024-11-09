@@ -60,6 +60,25 @@ module.exports = createCoreController('api::subject.subject', ({ strapi }) => ({
                 message: 'Subject successfully created!',
                 status: 'success'
             };
+            
+            let existingPayload = {
+                message: `Subjet code "${subj_code}" already exist!`,
+                status: 'fail'
+            }
+            
+
+            const checkDuplicate = await strapi.db.query("api::subject.subject").findMany({
+                where: {
+                    code: subj_code,
+                    curriculum_id: curri_id
+                }
+            })
+
+            if (checkDuplicate.length != 0) {
+                console.log("[createSubjCurri] Error: ", checkDuplicate)
+                return ctx.body =  existingPayload;
+                //return ctx.badRequest();
+            }
 
             const result = await strapi.db.query("api::subject.subject").create({
                 data: {

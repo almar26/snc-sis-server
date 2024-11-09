@@ -54,6 +54,24 @@ module.exports = createCoreController('api::curriculum.curriculum', ({ strapi })
                 status: "success"
             };
 
+            let existingPayload = {
+                message: `Curriculum "${effective_sy}" already exist!`,
+                status: 'fail'
+            }
+
+            const checkDuplicate = await strapi.db.query("api::curriculum.curriculum").findMany({
+                where: {
+                    year: effective_sy,
+                    course_id: course_id
+                }
+            })
+
+            if (checkDuplicate.length != 0) {
+                console.log("[createCurricula] Error: ", checkDuplicate)
+                return ctx.body =  existingPayload;
+                //return ctx.badRequest();
+            }
+
             const result = await strapi.db.query("api::curriculum.curriculum").create({
                 data: {
                     course_id: course_id,
