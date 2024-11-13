@@ -58,6 +58,15 @@
     },
     "student_status": {
       "type": "string"
+    },
+    "course_type": {
+      "type": "string"
+    },
+    "course_code": {
+      "type": "string"
+    },
+    "section": {
+      "type": "string"
     }
   }
 }

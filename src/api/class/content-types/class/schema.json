@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "classes",
+  "info": {
+    "singularName": "class",
+    "pluralName": "classes",
+    "displayName": "Class"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "class_id": {
+      "type": "string"
+    },
+    "subject_code": {
+      "type": "string"
+    },
+    "subject_description": {
+      "type": "string"
+    },
+    "course_code": {
+      "type": "string"
+    },
+    "course_description": {
+      "type": "string"
+    },
+    "section": {
+      "type": "string"
+    },
+    "units": {
+      "type": "integer"
+    },
+    "teacher_id": {
+      "type": "string"
+    },
+    "teacher_name": {
+      "type": "string"
+    },
+    "semester": {
+      "type": "string"
+    },
+    "school_year": {
+      "type": "string"
+    },
+    "days": {
+      "type": "string"
+    },
+    "time_start": {
+      "type": "time"
+    },
+    "time_end": {
+      "type": "time"
+    }
+  }
+}

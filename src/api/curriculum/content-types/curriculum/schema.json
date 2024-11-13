@@ -26,6 +26,9 @@
     },
     "course_description": {
       "type": "string"
+    },
+    "course_type": {
+      "type": "string"
     }
   }
 }

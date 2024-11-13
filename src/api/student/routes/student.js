@@ -31,7 +31,7 @@ const myExtraRoutes = [
     },
     {
         method: 'GET',
-        path: '/student/list',
+        path: '/student/list/:coursetype',
         handler: 'student.getStudentList'
     },
     {
@@ -46,8 +46,13 @@ const myExtraRoutes = [
     },
     {
         method: 'POST',
-        path: '/student/import',
-        handler: 'student.importCSV'
+        path: '/student/import-ched',
+        handler: 'student.importCHEDCSV'
+    },
+    {
+        method: 'POST',
+        path: '/student/import-diploma',
+        handler: 'student.importDiplomaCSV'
     }
 ]
 

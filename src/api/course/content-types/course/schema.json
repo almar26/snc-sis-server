@@ -28,6 +28,9 @@
     "year": {
       "type": "integer",
       "default": 0
+    },
+    "course_type": {
+      "type": "string"
     }
   }
 }

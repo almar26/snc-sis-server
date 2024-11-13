@@ -485,6 +485,43 @@ export interface PluginUsersPermissionsUser
   };
 }
 
+export interface ApiClassClass extends Struct.CollectionTypeSchema {
+  collectionName: 'classes';
+  info: {
+    singularName: 'class';
+    pluralName: 'classes';
+    displayName: 'Class';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    class_id: Schema.Attribute.String;
+    subject_code: Schema.Attribute.String;
+    subject_description: Schema.Attribute.String;
+    course_code: Schema.Attribute.String;
+    course_description: Schema.Attribute.String;
+    section: Schema.Attribute.String;
+    units: Schema.Attribute.Integer;
+    teacher_id: Schema.Attribute.String;
+    teacher_name: Schema.Attribute.String;
+    semester: Schema.Attribute.String;
+    school_year: Schema.Attribute.String;
+    days: Schema.Attribute.String;
+    time_start: Schema.Attribute.Time;
+    time_end: Schema.Attribute.Time;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::class.class'>;
+  };
+}
+
 export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
   collectionName: 'courses';
   info: {
@@ -503,6 +540,7 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
     course_status: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'active'>;
     year: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    course_type: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -532,6 +570,7 @@ export interface ApiCurriculumCurriculum extends Struct.CollectionTypeSchema {
     major: Schema.Attribute.String;
     year: Schema.Attribute.String;
     course_description: Schema.Attribute.String;
+    course_type: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -634,6 +673,9 @@ export interface ApiStudentStudent extends Struct.CollectionTypeSchema {
     semester: Schema.Attribute.String;
     address: Schema.Attribute.Text;
     student_status: Schema.Attribute.String;
+    course_type: Schema.Attribute.String;
+    course_code: Schema.Attribute.String;
+    section: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -1140,6 +1182,7 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::class.class': ApiClassClass;
       'api::course.course': ApiCourseCourse;
       'api::curriculum.curriculum': ApiCurriculumCurriculum;
       'api::excel-import.excel-import': ApiExcelImportExcelImport;
