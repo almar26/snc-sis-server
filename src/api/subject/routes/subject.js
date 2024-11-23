@@ -29,6 +29,11 @@ const myExtraRoutes = [
         handler: 'subject.getSubject'
     },
     {
+        method: "GET",
+        path: '/subject/course-list/:coursecode',
+        handler: 'subject.getSubjectCourse'
+    },
+    {
         method: 'POST',
         path: '/subject/create',
         handler: 'subject.createSubjCurri'

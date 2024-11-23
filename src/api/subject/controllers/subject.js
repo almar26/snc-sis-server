@@ -35,7 +35,30 @@ module.exports = createCoreController('api::subject.subject', ({ strapi }) => ({
             }
 
         } catch (err) {
-            console.log("[createSubjCurri] Error: ", err.message);
+            console.log("[getSubject] Error: ", err.message);
+            return ctx.badRequest(err.message, err);
+        }
+    },
+
+    // Get all Subjects by Course
+    async getSubjectCourse(ctx) {
+        try {
+            const { coursecode } = ctx.params;
+            console.log("[getSubjectCourse] Incoming Request");
+            const result = await strapi.db.query("api::subject.subject").findMany({ 
+                where: {
+                    course_code: {
+                        $eqi: coursecode
+                    }
+                },
+                orderBy: { id: 'ASC'}});
+            if (result) {
+                ctx.status = 200;
+                return ctx.body = result;
+            }
+
+        } catch (err) {
+            console.log("[getSubjectCourse] Error: ", err.message);
             return ctx.badRequest(err.message, err);
         }
     },
@@ -52,7 +75,8 @@ module.exports = createCoreController('api::subject.subject', ({ strapi }) => ({
                 lec,
                 lab,
                 units,
-                resultant
+                resultant,
+                course_code
             } = ctx.request.body;
 
             let myPayload = {
@@ -67,12 +91,33 @@ module.exports = createCoreController('api::subject.subject', ({ strapi }) => ({
             }
             
 
-            const checkDuplicate = await strapi.db.query("api::subject.subject").findMany({
-                where: {
-                    code: subj_code,
-                    curriculum_id: curri_id
-                }
-            })
+            // const checkDuplicate = await strapi.db.query("api::subject.subject").findMany({
+            //     where: {
+            //         code: subj_code,
+            //         curriculum_id: curri_id
+            //     }
+            // })
+            const checkDuplicate = await strapi.db
+            .query("api::subject.subject")
+            .findMany({
+              // where: {
+              //     code: subj_code,
+              //     curriculum_id: curri_id
+              // }
+              where: {
+                $and: [
+                  {
+                    code: {
+                      $eqi: subj_code,
+                    },
+                  },
+                  {
+                    curriculum_id: curri_id,
+                  },
+                ],
+              },
+            });
+            
 
             if (checkDuplicate.length != 0) {
                 console.log("[createSubjCurri] Error: ", checkDuplicate)
@@ -90,7 +135,8 @@ module.exports = createCoreController('api::subject.subject', ({ strapi }) => ({
                     units:  units,
                     lec: lec,
                     lab: lab,
-                    resultant: resultant
+                    resultant: resultant,
+                    course_code: course_code
                 }
             });
 

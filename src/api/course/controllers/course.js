@@ -22,7 +22,7 @@ module.exports = createCoreController('api::course.course', ({ strapi }) => ({
             }
 
         } catch (err) {
-            console.log("[creaetCourse] Error: ", err.message);
+            console.log("[getCourseList] Error: ", err.message);
             return ctx.badRequest(err.message, err);
         }
     },
@@ -73,7 +73,8 @@ module.exports = createCoreController('api::course.course', ({ strapi }) => ({
                 course_code,
                 course_description,
                 major,
-                year
+                year,
+                course_type
             } = ctx.request.body;
 
             let myPayload = {
@@ -87,7 +88,8 @@ module.exports = createCoreController('api::course.course', ({ strapi }) => ({
                   code: course_code,
                   description: course_description,
                   major: major,
-                  year: year
+                  year: year,
+                  course_type: course_type
                 }
             })
 

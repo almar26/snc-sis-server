@@ -745,7 +745,7 @@ export interface ApiSubjectSubject extends Struct.CollectionTypeSchema {
   };
   attributes: {
     subject_id: Schema.Attribute.String & Schema.Attribute.Unique;
-    code: Schema.Attribute.String;
+    code: Schema.Attribute.String & Schema.Attribute.Unique;
     title: Schema.Attribute.String;
     year_level: Schema.Attribute.Integer;
     semester: Schema.Attribute.String;
@@ -754,6 +754,7 @@ export interface ApiSubjectSubject extends Struct.CollectionTypeSchema {
     lec: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     lab: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     resultant: Schema.Attribute.String;
+    course_code: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

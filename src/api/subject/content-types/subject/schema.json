@@ -17,7 +17,8 @@
       "unique": true
     },
     "code": {
-      "type": "string"
+      "type": "string",
+      "unique": true
     },
     "title": {
       "type": "string"
@@ -44,6 +45,9 @@
       "default": 0
     },
     "resultant": {
+      "type": "string"
+    },
+    "course_code": {
       "type": "string"
     }
   }
