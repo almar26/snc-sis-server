@@ -8,7 +8,7 @@ services:
       NODE_ENV: production
       # STRAPI Server Config
       STRAPI_HOST: ${STRAPI_HOST}
-      STRAPI_PORT: ${STRAPI_PORT}
+      STRAPI_PORT: 8890
       STRAPI_BASEURL: ${STRAPI_BASEURL}
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       API_TOKEN_SALT: ${API_TOKEN_SALT} 
