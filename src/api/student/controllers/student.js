@@ -194,6 +194,83 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
     }
   },
 
+  async updateStudentDetails(ctx) {
+    try {
+      const { documentid } = ctx.params;
+      let {
+        student_no,
+        last_name,
+        first_name,
+        middle_name,
+        course,
+        course_code,
+        major,
+        gender,
+        birthday,
+        age,
+        semester,
+        school_year_start,
+        school_year_end,
+        address,
+      } = ctx.request.body;
+
+      let myPayload = {
+        data: {},
+        message: "Succefully Updated!",
+        status: "success"
+      };
+
+      // const result = await strapi.db.query("api::student.student").update({
+      //   where: { id: documentid },
+      //   data: {
+      //     student_no: student_no,
+      //     last_name: last_name,
+      //     first_name: first_name,
+      //     middle_name: middle_name,
+      //     course: course,
+      //     course_code: course_code,
+      //     major: major,
+      //     gender: gender,
+      //     birthday: birthday,
+      //     age: age,
+      //     semester: semester,
+      //     school_year_start: school_year_start,
+      //     school_year_end: school_year_end,
+      //     address: address,
+      //     //course_type: course_type
+      //   }
+      // });
+      const result = await strapi.db.query("api::student.student").update({
+        where: { documentId: documentid },
+        data: {
+          student_no: student_no,
+          last_name: last_name,
+          first_name: first_name,
+          middle_name: middle_name,
+          course: course,
+          course_code: course_code,
+          major: major,
+          gender: gender,
+          birthday: birthday,
+          age: age,
+          semester: semester,
+          school_year_start: school_year_start,
+          school_year_end: school_year_end,
+          address: address,
+          //course_type: course_type
+        }
+      });
+
+      if (result) {
+        myPayload.data = result;
+        ctx.status = 200;
+        return ctx.body = myPayload
+      }
+    } catch (err) {
+
+    }
+  },
+
   async getStudentDetails(ctx) {
     try {
       console.log("[getStudentDetails] Incoming Request");
@@ -234,4 +311,29 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
       return ctx.badRequest(err.message, err);
     }
   },
+
+  // Delete Student
+  async deleteStudent(ctx) {
+    try {
+      const { documentid } = ctx.params;
+      let myPayload = {
+        data: {},
+        message: "Succesfully Deleted!",
+        status: "success"
+      };
+
+      const result = await strapi.db.query("api::student.student").delete({
+        where: { documentId: documentid}
+      });
+
+      if (result) {
+        myPayload.data = result;
+        ctx.status = 200;
+        return ctx.body = myPayload
+      }
+    } catch (err) {
+      ctx.body = err.message;
+      ctx.status = 404;
+    }
+  }
 }));
