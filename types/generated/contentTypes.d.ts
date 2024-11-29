@@ -676,6 +676,7 @@ export interface ApiStudentStudent extends Struct.CollectionTypeSchema {
     course_type: Schema.Attribute.String;
     course_code: Schema.Attribute.String;
     section: Schema.Attribute.String;
+    school_year: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
