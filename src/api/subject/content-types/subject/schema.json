@@ -49,6 +49,9 @@
     },
     "course_code": {
       "type": "string"
+    },
+    "course_id": {
+      "type": "string"
     }
   }
 }

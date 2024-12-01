@@ -38,6 +38,16 @@ const myExtraRoutes = [
         path: '/curriculum/create',
         handler: 'curriculum.createCurricula'
     },
+    {
+        method: 'PUT',
+        path: '/curriculum/update/:documentid',
+        handler: 'curriculum.updateCurricula'
+    },
+    {
+        method: "DELETE",
+        path: '/curriculum/delete/:documentid',
+        handler: "curriculum.deleteCurriculum"
+    }
 
 ]
 

@@ -17,6 +17,7 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
     ctx.status = 200;
   },
 
+  // Import CHED student using CSV
   async importCHEDCSV(ctx) {
     const { filePath } = ctx.request.body;
     const results = [];
@@ -55,6 +56,7 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
     }
   },
 
+  // Import Diploma students using CSV
   async importDiplomaCSV(ctx) {
     const { filePath } = ctx.request.body;
     const results = [];
@@ -93,8 +95,10 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
     }
   },
 
+  // Fetch all students
   async getStudentList(ctx) {
     try {
+      console.log("[getStudentList] Incoming Request");
       const { coursetype } = ctx.params;
       console.log("[getStudentLst] Incoming Request");
       const result = await strapi.entityService
@@ -113,13 +117,15 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
         return (ctx.body = result);
       }
     } catch (err) {
-      ctx.body = err.message;
-      ctx.status = 404;
+      console.log("[getStudentList] Error: ", err.message);
+      return ctx.badRequest(err.message, err);
     }
   },
 
+  // Create Student
   async createStudent(ctx) {
     try {
+      console.log("[createStudent] Incoming Request");
       let {
         student_no,
         last_name,
@@ -135,7 +141,7 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
         school_year_start,
         school_year_end,
         address,
-        course_type
+        course_type,
       } = ctx.request.body;
 
       let myPayload = {
@@ -146,22 +152,22 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
 
       let existingPayload = {
         message: `Student no "${student_no}" already exist!`,
-        status: 'fail'
-    }
+        status: "fail",
+      };
 
-    const checkDuplicate = await strapi.db.query("api::student.student").findMany({
-        where: {
+      const checkDuplicate = await strapi.db
+        .query("api::student.student")
+        .findMany({
+          where: {
             student_no: student_no,
-        }
-    })
+          },
+        });
 
-    if (checkDuplicate.length != 0) {
-        console.log("[createStudent] Error: ", checkDuplicate)
-        return ctx.body =  existingPayload;
+      if (checkDuplicate.length != 0) {
+        console.log("[createStudent] Error: ", checkDuplicate);
+        return (ctx.body = existingPayload);
         //return ctx.badRequest();
-    }
-
-
+      }
 
       const result = await strapi.db.query("api::student.student").create({
         data: {
@@ -179,7 +185,7 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
           school_year_start: school_year_start,
           school_year_end: school_year_end,
           address: address,
-          course_type: course_type
+          course_type: course_type,
         },
       });
 
@@ -194,8 +200,10 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
     }
   },
 
+  // Update Student Details
   async updateStudentDetails(ctx) {
     try {
+      console.log("[updateStudentDetails] Incoming Request");
       const { documentid } = ctx.params;
       let {
         student_no,
@@ -217,29 +225,9 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
       let myPayload = {
         data: {},
         message: "Succefully Updated!",
-        status: "success"
+        status: "success",
       };
 
-      // const result = await strapi.db.query("api::student.student").update({
-      //   where: { id: documentid },
-      //   data: {
-      //     student_no: student_no,
-      //     last_name: last_name,
-      //     first_name: first_name,
-      //     middle_name: middle_name,
-      //     course: course,
-      //     course_code: course_code,
-      //     major: major,
-      //     gender: gender,
-      //     birthday: birthday,
-      //     age: age,
-      //     semester: semester,
-      //     school_year_start: school_year_start,
-      //     school_year_end: school_year_end,
-      //     address: address,
-      //     //course_type: course_type
-      //   }
-      // });
       const result = await strapi.db.query("api::student.student").update({
         where: { documentId: documentid },
         data: {
@@ -258,19 +246,21 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
           school_year_end: school_year_end,
           address: address,
           //course_type: course_type
-        }
+        },
       });
 
       if (result) {
         myPayload.data = result;
         ctx.status = 200;
-        return ctx.body = myPayload
+        return (ctx.body = myPayload);
       }
     } catch (err) {
-
+      console.log("[updateStudentDetails] Error: ", err.message);
+      return ctx.badRequest(err.message, err);
     }
   },
 
+  // Get student details
   async getStudentDetails(ctx) {
     try {
       console.log("[getStudentDetails] Incoming Request");
@@ -315,25 +305,26 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
   // Delete Student
   async deleteStudent(ctx) {
     try {
+      console.log("[deleteStudent] Incoming Request");
       const { documentid } = ctx.params;
       let myPayload = {
         data: {},
         message: "Succesfully Deleted!",
-        status: "success"
+        status: "success",
       };
 
       const result = await strapi.db.query("api::student.student").delete({
-        where: { documentId: documentid}
+        where: { documentId: documentid },
       });
 
       if (result) {
         myPayload.data = result;
         ctx.status = 200;
-        return ctx.body = myPayload
+        return (ctx.body = myPayload);
       }
     } catch (err) {
-      ctx.body = err.message;
-      ctx.status = 404;
+      console.log("[deleteStudent] Error: ", err.message);
+      return ctx.badRequest(err.message, err);
     }
-  }
+  },
 }));

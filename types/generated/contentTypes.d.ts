@@ -756,6 +756,7 @@ export interface ApiSubjectSubject extends Struct.CollectionTypeSchema {
     lab: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     resultant: Schema.Attribute.String;
     course_code: Schema.Attribute.String;
+    course_id: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

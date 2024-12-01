@@ -76,7 +76,8 @@ module.exports = createCoreController('api::subject.subject', ({ strapi }) => ({
                 lab,
                 units,
                 resultant,
-                course_code
+                course_code,
+                course_id
             } = ctx.request.body;
 
             let myPayload = {
@@ -136,7 +137,8 @@ module.exports = createCoreController('api::subject.subject', ({ strapi }) => ({
                     lec: lec,
                     lab: lab,
                     resultant: resultant,
-                    course_code: course_code
+                    course_code: course_code,
+                    course_id: course_id
                 }
             });
 
