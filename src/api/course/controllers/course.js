@@ -27,6 +27,25 @@ module.exports = createCoreController("api::course.course", ({ strapi }) => ({
     }
   },
 
+  // Get List of Course by course type "ched or tesda"
+  async getCourseListByType(ctx) {
+    const { coursetype } = ctx.params;
+    try {
+      console.log("[getCourseListByType] Incoming Request");
+      const result = await strapi.db.query("api::course.course").findMany({
+        where: { course_type: coursetype },
+        orderBy: { id: "ASC" },
+      });
+      if (result) {
+        ctx.status = 200;
+        return (ctx.body = result);
+      }
+    } catch (err) {
+      console.log("[getCourseListByType] Error: ", err.message);
+      return ctx.badRequest(err.message, err);
+    }
+  },
+
   async getCourseDetails(ctx) {
     try {
       console.log("[getCourseDetails] Incoming Request");
