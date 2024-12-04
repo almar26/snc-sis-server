@@ -38,6 +38,17 @@ const myExtraRoutes = [
         path: '/subject/create',
         handler: 'subject.createSubjCurri'
     },
+    {
+        method: 'PUT',
+        path: '/subject/update/:documentid',
+        handler: 'subject.updateSubject'
+    }, 
+    {
+        method: 'DELETE',
+        path: '/subject/delete/:documentid',
+        handler: 'subject.deleteSubject'
+    }
+
 
 ]
 

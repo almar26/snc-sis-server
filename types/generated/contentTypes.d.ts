@@ -616,6 +616,38 @@ export interface ApiExcelImportExcelImport extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiSchoolYearSchoolYear extends Struct.CollectionTypeSchema {
+  collectionName: 'school_years';
+  info: {
+    singularName: 'school-year';
+    pluralName: 'school-years';
+    displayName: 'SchoolYear';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    school_year: Schema.Attribute.String;
+    school_year_start: Schema.Attribute.Integer;
+    school_year_end: Schema.Attribute.Integer;
+    semester: Schema.Attribute.String;
+    sy_status: Schema.Attribute.String;
+    active_sy: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::school-year.school-year'
+    >;
+  };
+}
+
 export interface ApiSemesterSemester extends Struct.CollectionTypeSchema {
   collectionName: 'semesters';
   info: {
@@ -1189,6 +1221,7 @@ declare module '@strapi/strapi' {
       'api::course.course': ApiCourseCourse;
       'api::curriculum.curriculum': ApiCurriculumCurriculum;
       'api::excel-import.excel-import': ApiExcelImportExcelImport;
+      'api::school-year.school-year': ApiSchoolYearSchoolYear;
       'api::semester.semester': ApiSemesterSemester;
       'api::student.student': ApiStudentStudent;
       'api::student-subject.student-subject': ApiStudentSubjectStudentSubject;
