@@ -207,6 +207,7 @@ module.exports = createCoreController("api::course.course", ({ strapi }) => ({
           description: course_desc,
           major: major,
           course_type: course_type,
+          year: year
         },
       });
 

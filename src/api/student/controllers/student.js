@@ -18,19 +18,67 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
   },
 
   // Import CHED student using CSV
+  // async importCHEDCSV(ctx) {
+  //   // const { filePath } = ctx.request.body;
+  //   const { csvFile } = ctx.request.files;
+
+  //   const results = [];
+
+  //   try {
+  //     // Read the CSV file
+  //     fs.createReadStream(csvFile)
+  //       .pipe(csv())
+  //       .on("data", (data) => results.push(data))
+  //       .on("end", async () => {
+  //         //  Loop through results and save them to the database
+  //         for (const item of results) {
+  //           await strapi.services["api::student.student"].create({
+  //             data: {
+  //               student_no: item.student_no,
+  //               last_name: item.last_name,
+  //               first_name: item.first_name,
+  //               middle_name: item.middle_name,
+  //               gender: item.gender,
+  //               course_code: item.course_code,
+  //               course: item.course,
+  //               major: item.major,
+  //               section: item.section,
+  //               semester: "1st Semester",
+  //               school_year_start: 2024,
+  //               school_year_end: 2025,
+  //               school_year: "2024-2025",
+  //               course_type: "ched",
+  //             },
+  //           });
+  //         }
+  //         ctx.send({ message: "CSV imported successfully", data: results });
+  //       });
+  //   } catch (err) {
+  //     console.log("[importCSV] Error: ", err.message);
+  //     return ctx.badRequest(err.message, err);
+  //   }
+  // },
+
+  // Upload CSV Data
   async importCHEDCSV(ctx) {
     const { filePath } = ctx.request.body;
     const results = [];
+    let myPayload = {
+      message: "CSV Imported Successfully",
+      status: "success"
+    }
 
-    try {
-      // Read the CSV file
-      fs.createReadStream(filePath)
-        .pipe(csv())
-        .on("data", (data) => results.push(data))
-        .on("end", async () => {
-          //  Loop through results and save them to the database
-          for (const item of results) {
-            await strapi.services["api::student.student"].create({
+    // Read the CSV file
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on("data", (data) => results.push(data))
+      .on("end", async () => {
+        //  Loop through results and save them to the database
+        for (const item of results) {
+          try {
+            const response = await strapi.services[
+              "api::student.student"
+            ].create({
               data: {
                 student_no: item.student_no,
                 last_name: item.last_name,
@@ -44,16 +92,24 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
                 semester: "1st Semester",
                 school_year_start: 2024,
                 school_year_end: 2025,
+                school_year: "2024-2025",
                 course_type: "ched",
               },
             });
+            //ctx.send({ message: "CSV imported successfully", data: results });
+            console.log("Uploaded: ", response);
+            
+          } catch (err) {
+            console.error(
+              "Error uploading record:",
+              err.response?.data || err.message
+            );
           }
-          ctx.send({ message: "CSV imported successfully", data: results });
-        });
-    } catch (err) {
-      console.log("[importCSV] Error: ", err.message);
-      return ctx.badRequest(err.message, err);
-    }
+        }
+      });
+
+    ctx.body = myPayload;
+    ctx.status = 200;
   },
 
   // Import Diploma students using CSV
