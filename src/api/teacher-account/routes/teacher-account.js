@@ -4,6 +4,35 @@
  * teacher-account router
  */
 
+// @ts-ignore
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
-module.exports = createCoreRouter('api::teacher-account.teacher-account');
+const defaultRouter = createCoreRouter("api::teacher-account.teacher-account");
+
+const customRouter = (innerRouter, extraRoutes = []) => {
+    let routes;
+    return {
+        get prefix() {
+            return innerRouter.prefix;
+        },
+        get routes() {
+            if (!routes) routes = innerRouter.routes.concat(extraRoutes);
+            return routes;
+        }
+    }
+};
+
+const myExtraRoutes = [
+    {
+        method: 'GET',
+        path: '/teacher-acccount/test',
+        handler: 'teacher-account.testApi'
+    },
+    {
+        method: 'POST',
+        path: '/teacher-acccount/create',
+        handler: 'teacher-account.createTeacherAccount'
+    },
+]
+
+module.exports = customRouter(defaultRouter, myExtraRoutes);

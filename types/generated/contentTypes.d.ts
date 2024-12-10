@@ -470,6 +470,12 @@ export interface PluginUsersPermissionsUser
       'plugin::users-permissions.role'
     >;
     role_view: Schema.Attribute.String;
+    last_name: Schema.Attribute.String;
+    first_name: Schema.Attribute.String;
+    middle_name: Schema.Attribute.String;
+    department: Schema.Attribute.String;
+    teacher_id: Schema.Attribute.String;
+    gender: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -491,6 +497,7 @@ export interface ApiClassClass extends Struct.CollectionTypeSchema {
     singularName: 'class';
     pluralName: 'classes';
     displayName: 'Class';
+    description: '';
   };
   options: {
     draftAndPublish: false;
@@ -510,6 +517,7 @@ export interface ApiClassClass extends Struct.CollectionTypeSchema {
     days: Schema.Attribute.String;
     time_start: Schema.Attribute.Time;
     time_end: Schema.Attribute.Time;
+    faculty_no: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -827,6 +835,7 @@ export interface ApiTeacherAccountTeacherAccount
     birthday: Schema.Attribute.String;
     gender: Schema.Attribute.String;
     teacher_status: Schema.Attribute.String;
+    role_view: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
