@@ -127,4 +127,34 @@ module.exports = createCoreController("api::class.class", ({ strapi }) => ({
       return ctx.badRequest(err.message, err);
     }
   },
+
+  // Get Class Details
+  async getClassDetails(ctx) {
+    try {
+      console.log("[getClassDetails] Incoming Request");
+      const { documentid } = ctx.params;
+
+      let myPayload = {
+        data: [],
+        message: "Successfully fetch data!",
+        status: "success",
+      };
+
+      const result = await strapi.entityService
+        .findMany("api::class.class", {
+          filters: {
+            documentId: { $eq: documentid },
+          },
+        })
+       
+        if (result) {
+          ctx.status = 200;
+          //myPayload.data = result;
+          return ctx.body = result;
+        }
+    } catch (err) {
+      console.log("[getClassDetails] Error: ", err.message);
+      return ctx.badRequest(err.message, err);
+    }
+  }
 }));

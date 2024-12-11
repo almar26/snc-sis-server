@@ -739,6 +739,7 @@ export interface ApiStudentSubjectStudentSubject
     singularName: 'student-subject';
     pluralName: 'student-subjects';
     displayName: 'StudentSubject';
+    description: '';
   };
   options: {
     draftAndPublish: false;
@@ -756,8 +757,11 @@ export interface ApiStudentSubjectStudentSubject
     numeric_grade: Schema.Attribute.Decimal;
     school_year: Schema.Attribute.String;
     semester: Schema.Attribute.String;
-    teacherid: Schema.Attribute.String;
+    teacher_id: Schema.Attribute.String;
     subject_status: Schema.Attribute.String;
+    class_id: Schema.Attribute.String;
+    student_id: Schema.Attribute.String;
+    remarks: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

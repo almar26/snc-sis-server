@@ -31,8 +31,13 @@ const myExtraRoutes = [
     },
     {
         method: 'GET',
-        path: '/student/list/:coursetype',
+        path: '/student/list',
         handler: 'student.getStudentList'
+    },
+    {
+        method: 'GET',
+        path: '/student/list/:coursetype',
+        handler: 'student.getStudentListCourseType'
     },
     {
         method: 'POST',

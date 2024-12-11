@@ -4,7 +4,8 @@
   "info": {
     "singularName": "student-subject",
     "pluralName": "student-subjects",
-    "displayName": "StudentSubject"
+    "displayName": "StudentSubject",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -47,10 +48,19 @@
     "semester": {
       "type": "string"
     },
-    "teacherid": {
+    "teacher_id": {
       "type": "string"
     },
     "subject_status": {
+      "type": "string"
+    },
+    "class_id": {
+      "type": "string"
+    },
+    "student_id": {
+      "type": "string"
+    },
+    "remarks": {
       "type": "string"
     }
   }

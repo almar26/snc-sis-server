@@ -97,7 +97,7 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
               },
             });
             //ctx.send({ message: "CSV imported successfully", data: results });
-            console.log("Uploaded: ", response);
+            //console.log("Uploaded: ", response);
             
           } catch (err) {
             console.error(
@@ -156,7 +156,34 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
     try {
       console.log("[getStudentList] Incoming Request");
       const { coursetype } = ctx.params;
-      console.log("[getStudentLst] Incoming Request");
+      console.log("[getStudentList] Incoming Request");
+      // const result = await strapi.entityService
+      //   .findMany("api::student.student", {
+      //     filters: {
+      //       course_type: { $eq: coursetype },
+      //     },
+      //     sort: { id: "ASC" },
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
+      const result = await strapi.db.query("api::student.student").findMany({ orderBy: { id: 'ASC'}});
+      if (result) {
+        ctx.status = 200;
+        return (ctx.body = result);
+      }
+    } catch (err) {
+      console.log("[getStudentList] Error: ", err.message);
+      return ctx.badRequest(err.message, err);
+    }
+  },
+
+  // Fetch all students by course type
+  async getStudentListCourseType(ctx) {
+    try {
+      console.log("[getStudentListCourseType] Incoming Request");
+      const { coursetype } = ctx.params;
+      console.log("[getStudentListCourseType] Incoming Request");
       const result = await strapi.entityService
         .findMany("api::student.student", {
           filters: {
@@ -173,7 +200,7 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
         return (ctx.body = result);
       }
     } catch (err) {
-      console.log("[getStudentList] Error: ", err.message);
+      console.log("[getStudentListCourseType] Error: ", err.message);
       return ctx.badRequest(err.message, err);
     }
   },
