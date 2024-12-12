@@ -87,5 +87,49 @@ module.exports = createCoreController(
         return ctx.badRequest(err.message, err);
       }
     },
+
+    async getStudentSubjectList(ctx) {
+      try { 
+        console.log("[getStudentSubjectList] Incoming Request")
+        const { classid } = ctx.params;
+
+        // const result = await strapi.entityService.findMany("api::student-subject.student-subject", {
+        //   filters: {
+        //     class_id : { $eq: classid },
+        //   },
+        //   populate: {
+        //     student: {
+        //       on: {
+        //         'components.student': {
+        //           fields: ['documentId']
+        //         }
+        //       }
+        //     }
+        //   }
+        // })
+        // .catch(err => {
+        //   console.log(err);
+        // })
+
+        let myQuery = `SELECT student_subjects.class_id, student_subjects.subject_code, student_subjects.student_id, student_subjects.student_no, students.last_name, 
+                      students.first_name, students.middle_name, students.course, students.course_code, student_subjects.section,
+                      student_subjects.unit, student_subjects.grade, student_subjects.numeric_grade, student_subjects.remarks, student_subjects.semester,
+                      student_subjects.school_year, student_subjects.teacher_id
+                      FROM students
+                      LEFT JOIN student_subjects on students.document_id = student_subjects.student_id
+                      WHERE student_subjects.class_id = '${classid}'
+                      ORDER BY students.last_name ASC`;
+        let result = await strapi.db.connection.context.raw(myQuery);
+
+        if (result) {
+          ctx.status = 200;
+          ctx.body = result.rows;
+          //return ctx.body = result.rows;
+        }
+      } catch (err) {
+        console.log("[getStudentSubjectList] Error: ", err.message);
+        return ctx.badRequest(err.message, err);
+      }
+    }
   })
 );

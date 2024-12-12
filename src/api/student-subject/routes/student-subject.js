@@ -28,5 +28,10 @@ const myExtraRoutes = [
         path: '/student-subject/create',
         handler: 'student-subject.createStudentSubject'
     },
+    {
+        method: 'GET',
+        path: '/student-subject/list/:classid',
+        handler: 'student-subject.getStudentSubjectList'
+    }
 ]
 module.exports = customRouter(defaultRouter, myExtraRoutes);
