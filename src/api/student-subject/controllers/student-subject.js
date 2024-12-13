@@ -111,7 +111,7 @@ module.exports = createCoreController(
         //   console.log(err);
         // })
 
-        let myQuery = `SELECT student_subjects.class_id, student_subjects.subject_code, student_subjects.student_id, student_subjects.student_no, students.last_name, 
+        let myQuery = `SELECT student_subjects.document_id, student_subjects.class_id, student_subjects.subject_code, student_subjects.student_id, student_subjects.student_no, students.last_name, 
                       students.first_name, students.middle_name, students.course, students.course_code, student_subjects.section,
                       student_subjects.unit, student_subjects.grade, student_subjects.numeric_grade, student_subjects.remarks, student_subjects.semester,
                       student_subjects.school_year, student_subjects.teacher_id
@@ -129,6 +129,43 @@ module.exports = createCoreController(
       } catch (err) {
         console.log("[getStudentSubjectList] Error: ", err.message);
         return ctx.badRequest(err.message, err);
+      }
+    },
+
+    // Add Subject Grade
+    async addSubjectGrade(ctx) {
+      try {
+        console.log("[addSubjectGrade] Incoming Request");
+        const { documentid } = ctx.params;
+        let {
+          grade,
+          numeric_grade,
+          remarks
+        } = ctx.request.body;
+
+        let myPayload = {
+          data: {},
+          message: "Successfully added a grade",
+          status: "success"
+        };
+
+        const result = await strapi.db.query("api::student-subject.student-subject").update({
+          where: { documentId: documentid },
+          data: {
+            grade: grade,
+            numeric_grade: numeric_grade,
+            remarks: remarks
+          }
+        });
+
+        if (result) {
+          myPayload.data = result;
+          ctx.status = 200;
+          return ctx.body = myPayload;
+        }
+      } catch (err) {
+        console.log("[addSubjectGrade] Error: ", err.message);
+      return ctx.badRequest(err.message, err);
       }
     }
   })

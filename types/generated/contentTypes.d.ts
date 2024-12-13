@@ -754,7 +754,7 @@ export interface ApiStudentSubjectStudentSubject
     section: Schema.Attribute.String;
     unit: Schema.Attribute.Integer;
     grade: Schema.Attribute.Decimal;
-    numeric_grade: Schema.Attribute.Decimal;
+    numeric_grade: Schema.Attribute.String;
     school_year: Schema.Attribute.String;
     semester: Schema.Attribute.String;
     teacher_id: Schema.Attribute.String;
@@ -762,6 +762,8 @@ export interface ApiStudentSubjectStudentSubject
     class_id: Schema.Attribute.String;
     student_id: Schema.Attribute.String;
     remarks: Schema.Attribute.String;
+    finalize_grade: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

@@ -40,7 +40,7 @@
       "type": "decimal"
     },
     "numeric_grade": {
-      "type": "decimal"
+      "type": "string"
     },
     "school_year": {
       "type": "string"
@@ -62,6 +62,10 @@
     },
     "remarks": {
       "type": "string"
+    },
+    "finalize_grade": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
