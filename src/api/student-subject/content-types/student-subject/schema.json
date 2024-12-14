@@ -66,6 +66,22 @@
     "finalize_grade": {
       "type": "boolean",
       "default": false
+    },
+    "incomplete": {
+      "type": "boolean",
+      "default": false
+    },
+    "fda": {
+      "type": "boolean",
+      "default": false
+    },
+    "dropped": {
+      "type": "boolean",
+      "default": false
+    },
+    "udropped": {
+      "type": "boolean",
+      "default": true
     }
   }
 }

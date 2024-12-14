@@ -764,6 +764,10 @@ export interface ApiStudentSubjectStudentSubject
     remarks: Schema.Attribute.String;
     finalize_grade: Schema.Attribute.Boolean &
       Schema.Attribute.DefaultTo<false>;
+    incomplete: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    fda: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    dropped: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    udropped: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
