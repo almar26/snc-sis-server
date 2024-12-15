@@ -47,6 +47,11 @@ const myExtraRoutes = [
         path: '/class/details/:documentid',
         handler: 'class.getClassDetails'
     },
+    {
+        method: "PUT",
+        path: '/class/update/:documentid',
+        handler: "class.updateClassDetails"
+    }
 ]
 
 module.exports = customRouter(defaultRouter, myExtraRoutes);

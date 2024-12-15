@@ -156,5 +156,56 @@ module.exports = createCoreController("api::class.class", ({ strapi }) => ({
       console.log("[getClassDetails] Error: ", err.message);
       return ctx.badRequest(err.message, err);
     }
+  },
+
+  async updateClassDetails(ctx) {
+    try {
+      console.log("[updateClassDetails] Incoming Request");
+      const { documentid } = ctx.params;
+      let {
+        subject_code,
+        subject_desc,
+        course_code,
+        section,
+        units,
+        semester,
+        school_year,
+        days,
+        time_start,
+        time_end
+      } = ctx.request.body;
+
+      let myPayload = {
+        data: {},
+        message: "Successfully Updated",
+        status: "success"
+      };
+      
+      const result = await strapi.db.query('api::class.class').update({
+        where: { documentId: documentid },
+        data: {
+          subject_code: subject_code,
+          subject_description: subject_desc,
+          course_code: course_code,
+          section: section,
+          units: units,
+          semester: semester,
+          school_year: school_year,
+          days: days,
+          time_start: time_start,
+          time_end: time_end
+        }
+      });
+
+      if (result) {
+        myPayload.data = result;
+        ctx.status = 200;
+        return ctx.body = myPayload;
+      }
+
+    } catch (err) {
+      console.log("[updateClassDetails] Error: ", err.message);
+      return ctx.badRequest(err.message, err);
+    }
   }
 }));
