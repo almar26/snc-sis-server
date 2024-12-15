@@ -181,7 +181,24 @@ module.exports = createCoreController("api::class.class", ({ strapi }) => ({
         status: "success"
       };
       
-      const result = await strapi.db.query('api::class.class').update({
+      // const result = await strapi.db.query('api::class.class').update({
+      //   where: { documentId: documentid },
+      //   data: {
+      //     subject_code: subject_code,
+      //     subject_description: subject_desc,
+      //     course_code: course_code,
+      //     section: section,
+      //     units: units,
+      //     semester: semester,
+      //     school_year: school_year,
+      //     days: days,
+      //     time_start: time_start,
+      //     time_end: time_end
+      //   }
+      // });
+
+      // Update class details
+       await strapi.db.query('api::class.class').update({
         where: { documentId: documentid },
         data: {
           subject_code: subject_code,
@@ -197,12 +214,29 @@ module.exports = createCoreController("api::class.class", ({ strapi }) => ({
         }
       });
 
-      if (result) {
-        myPayload.data = result;
-        ctx.status = 200;
-        return ctx.body = myPayload;
-      }
+      // Update Student Subject
+      await strapi.db.query('api::student-subject.student-subject').updateMany({
+        where: { class_id: documentid },
+        data: {
+          subject_code: subject_code,
+          //subject_description: subject_desc,
+          //course_code: course_code,
+          section: section,
+          unit: units,
+          semester: semester,
+          school_year: school_year,
+          //days: days,
+          //time_start: time_start,
+          //time_end: time_end
+        }
+      });
 
+      // if (result) {
+      //   myPayload.data = result;
+      //   ctx.status = 200;
+      //   return ctx.body = myPayload;
+      // }
+      return ctx.send(myPayload);
     } catch (err) {
       console.log("[updateClassDetails] Error: ", err.message);
       return ctx.badRequest(err.message, err);
