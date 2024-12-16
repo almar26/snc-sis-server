@@ -84,5 +84,39 @@ module.exports = createCoreController(
         return ctx.badRequest(err.message, err);
       }
     },
+
+    // Get list of teacher's account by department
+    async getTeacherAccountsList(ctx) {
+      try {
+        console.log("[getTeacherAccountsList] Incoming Request");
+        const { department } = ctx.params;
+
+        const result = await strapi.entityService.findMany("api::teacher-account.teacher-account", {
+          filters: {
+            department: { $eq: department },
+            role_view: { $eq: "teacher" }
+            // $and: [
+            //   {
+            //     department: { $eq: department },
+            //   },
+            //   {
+            //     role_view: { $eq: "teacher"}
+            //   }
+            // ]
+          },
+        })
+        .catch(err => {
+          console.log(err);
+        })
+
+        if (result) {
+          ctx.status = 200;
+          return ctx.body = result;
+        }
+      } catch (err) {
+        console.log("[getTeacherAccountsList] Error: ", err.message);
+        return ctx.badRequest(err.message, err);
+      }
+    }
   })
 );

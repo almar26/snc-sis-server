@@ -36,17 +36,17 @@ module.exports = createCoreController(
         };
 
         let existingPayload = {
-            message: `Student ${student_no} already added to this class.`,
+            message: `Student ${student_no} already added to the subject ${subject_code}.`,
             status: 'fail'
         };
 
         const checkDuplicate = await strapi.db.query("api::student-subject.student-subject")
         .findMany({
             where: {
-                teacher_id: teacher_id,
+                //teacher_id: teacher_id,
                 student_no: student_no,
                 course_code: course_code,
-                section: section,
+                // section: section,
                 subject_code: subject_code,
                 semester: semester,
                 school_year: school_year

@@ -33,6 +33,11 @@ const myExtraRoutes = [
         path: '/teacher-acccount/create',
         handler: 'teacher-account.createTeacherAccount'
     },
+    {
+        method: 'GET',
+        path: '/teacher-acccount/list/:department',
+        handler: 'teacher-account.getTeacherAccountsList'
+    },
 ]
 
 module.exports = customRouter(defaultRouter, myExtraRoutes);
