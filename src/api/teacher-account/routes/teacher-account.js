@@ -38,6 +38,11 @@ const myExtraRoutes = [
         path: '/teacher-acccount/list/:department',
         handler: 'teacher-account.getTeacherAccountsList'
     },
+    {
+        method: 'PUT',
+        path: '/teacher-account/update/:teacherid',
+        handler: 'teacher-account.updateTeacherAccount'
+    }
 ]
 
 module.exports = customRouter(defaultRouter, myExtraRoutes);

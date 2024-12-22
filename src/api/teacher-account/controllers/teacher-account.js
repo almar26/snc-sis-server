@@ -117,6 +117,79 @@ module.exports = createCoreController(
         console.log("[getTeacherAccountsList] Error: ", err.message);
         return ctx.badRequest(err.message, err);
       }
+    },
+
+    // Update Teacher's Account
+    async updateTeacherAccount(ctx) {
+      try {
+        console.log("[updateClassDetails] Incoming Request");
+        const { teacherid } = ctx.params;
+        let {
+          faculty_no,
+          faculty_no_duplicate,
+          last_name,
+          first_name,
+          middle_name,
+          email,
+          gender
+        } = ctx.request.body;
+
+        let myPayload = {
+          data: {},
+          message: `Faculty No. "${faculty_no}" Successfully Updated`,
+          status: "success"
+        };
+
+        let existingPayload = {
+          message: `Faculy No. "${faculty_no}" already exist!`,
+          status: 'fail'
+        }
+
+        //Validate if faculty no is already exist
+        if (faculty_no_duplicate != faculty_no) {
+          const checkDuplicate = await strapi.db.query("api::teacher-account.teacher-account").findMany({
+            where: {
+              faculty_no: faculty_no
+            }
+          });
+
+          if (checkDuplicate.length != 0) {
+            console.log("[updateClassDetails] Error: ", checkDuplicate);
+            return ctx.body = existingPayload;
+          }
+        }
+
+        // Update teacher details
+        await strapi.db.query("api::teacher-account.teacher-account").update({
+          where: { teacher_id: teacherid },
+          data: {
+            faculty_no: faculty_no,
+            last_name: last_name,
+            first_name: first_name,
+            middle_name: middle_name,
+            email: email,
+            gender: gender
+          }
+        });
+
+        // Update teacher user account
+        await strapi.db.query("plugin::users-permissions.user").update({
+          where: { teacher_id: teacherid },
+          data: {
+            username: faculty_no,
+            last_name: last_name,
+            first_name: first_name,
+            middle_name: middle_name,
+            email: email,
+            gender: gender
+          }
+        });
+
+        return ctx.send(myPayload);
+      } catch (err) {
+        console.log("[updateTeacherAccount] Error: ", err.message);
+      return ctx.badRequest(err.message, err);
+      }
     }
   })
 );
