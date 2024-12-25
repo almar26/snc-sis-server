@@ -241,5 +241,28 @@ module.exports = createCoreController("api::class.class", ({ strapi }) => ({
       console.log("[updateClassDetails] Error: ", err.message);
       return ctx.badRequest(err.message, err);
     }
+  },
+  
+  async finalizeClass(ctx) {
+    try {
+      console.log("[finalizeClass] Incoming Request");
+      const { documentid } = ctx.params;
+      
+      let myPayload = {
+        data: {},
+        message: "Successfully Finalized the Class",
+        status: "success"
+      };
+
+      // Update finalize value to true
+      await strapi.db.query("api::class.class").update({
+        where: { documentId: documentid},
+        data: { finalize: true },
+      });
+      return ctx.send(myPayload);
+    } catch (err) {
+      console.log("[finalizeClass] Error: ", err.message);
+      return ctx.badRequest(err.message, err);
+    }
   }
 }));

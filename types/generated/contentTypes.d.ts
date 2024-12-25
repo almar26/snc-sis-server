@@ -518,6 +518,7 @@ export interface ApiClassClass extends Struct.CollectionTypeSchema {
     time_start: Schema.Attribute.Time;
     time_end: Schema.Attribute.Time;
     faculty_no: Schema.Attribute.String;
+    finalize: Schema.Attribute.Boolean;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

@@ -56,6 +56,9 @@
     },
     "faculty_no": {
       "type": "string"
+    },
+    "finalize": {
+      "type": "boolean"
     }
   }
 }

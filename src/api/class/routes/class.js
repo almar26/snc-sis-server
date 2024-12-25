@@ -51,6 +51,11 @@ const myExtraRoutes = [
         method: "PUT",
         path: '/class/update/:documentid',
         handler: "class.updateClassDetails"
+    },
+    {
+        method: "PUT",
+        path: '/class/finalized/:documentid',
+        handler: "class.finalizeClass"
     }
 ]
 
