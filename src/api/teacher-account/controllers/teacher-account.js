@@ -29,7 +29,7 @@ module.exports = createCoreController(
           birthday,
           gender,
           teacher_status,
-          role_view
+          role_view,
         } = ctx.request.body;
 
         let myPayload = {
@@ -55,30 +55,86 @@ module.exports = createCoreController(
           console.log("[createTeacherAccount]: ", checkDuplicate);
           return (ctx.body = existingPayload);
         }
+        const teacherid = short.generate();
+        // Create teacher account
+        await strapi.db.query("api::teacher-account.teacher-account").create({
+          data: {
+            // teacher_id: short.generate(),
+            teacher_id: teacherid,
+            faculty_no: faculty_no,
+            last_name: last_name,
+            first_name: first_name,
+            middle_name: middle_name,
+            email: email,
+            department: department,
+            birthday: birthday,
+            gender: gender,
+            teacher_status: teacher_status,
+            role_view: role_view,
+          },
+        });
 
-        const result = await strapi.db
-          .query("api::teacher-account.teacher-account")
-          .create({
-            data: {
-              teacher_id: short.generate(),
-              faculty_no: faculty_no,
-              last_name: last_name,
-              first_name: first_name,
-              middle_name: middle_name,
-              email: email,
-              department: department,
-              birthday: birthday,
-              gender: gender,
-              teacher_status: teacher_status,
-              role_view: role_view
-            },
-          });
+        // Create Teacher user account
+        await strapi.entityService.create("plugin::users-permissions.user", {
+          data: {
+            teacher_id: teacherid,
+            email: email,
+            username: faculty_no,
+            last_name: last_name,
+            first_name: first_name,
+            middle_name: middle_name,
+            department: department,
+            gender: gender,
+            password: "admin123",
+            confirmed: true,
+            provider: "local",
+            role: 1,
+            role_view: role_view,
+          },
+        });
+        // await strapi.db.query("plugin::users-permissions.user").create({
+        //   data: {
+        //     teacher_id: teacherid,
+        //     email: email,
+        //     username: faculty_no,
+        //     last_name: last_name,
+        //     first_name: first_name,
+        //     middle_name: middle_name,
+        //     department: department,
+        //     gender: gender,
+        //     password: "admin123",
+        //     confirmed: true,
+        //     provider: "local",
+        //     role: 1,
+        //     role_view: role_view,
+        //   },
+        // });
 
-        if (result) {
-          myPayload.data = result;
-          ctx.status = 200;
-          return (ctx.body = myPayload);
-        }
+        return ctx.send(myPayload);
+
+        // const result = await strapi.db
+        //   .query("api::teacher-account.teacher-account")
+        //   .create({
+        //     data: {
+        //       teacher_id: short.generate(),
+        //       faculty_no: faculty_no,
+        //       last_name: last_name,
+        //       first_name: first_name,
+        //       middle_name: middle_name,
+        //       email: email,
+        //       department: department,
+        //       birthday: birthday,
+        //       gender: gender,
+        //       teacher_status: teacher_status,
+        //       role_view: role_view
+        //     },
+        //   });
+
+        // if (result) {
+        //   myPayload.data = result;
+        //   ctx.status = 200;
+        //   return (ctx.body = myPayload);
+        // }
       } catch (err) {
         console.log("[createTeacherAccount] Error: ", err.message);
         return ctx.badRequest(err.message, err);
@@ -91,27 +147,28 @@ module.exports = createCoreController(
         console.log("[getTeacherAccountsList] Incoming Request");
         const { department } = ctx.params;
 
-        const result = await strapi.entityService.findMany("api::teacher-account.teacher-account", {
-          filters: {
-            department: { $eq: department },
-            role_view: { $eq: "teacher" }
-            // $and: [
-            //   {
-            //     department: { $eq: department },
-            //   },
-            //   {
-            //     role_view: { $eq: "teacher"}
-            //   }
-            // ]
-          },
-        })
-        .catch(err => {
-          console.log(err);
-        })
+        const result = await strapi.entityService
+          .findMany("api::teacher-account.teacher-account", {
+            filters: {
+              department: { $eq: department },
+              role_view: { $eq: "teacher" },
+              // $and: [
+              //   {
+              //     department: { $eq: department },
+              //   },
+              //   {
+              //     role_view: { $eq: "teacher"}
+              //   }
+              // ]
+            },
+          })
+          .catch((err) => {
+            console.log(err);
+          });
 
         if (result) {
           ctx.status = 200;
-          return ctx.body = result;
+          return (ctx.body = result);
         }
       } catch (err) {
         console.log("[getTeacherAccountsList] Error: ", err.message);
@@ -131,31 +188,33 @@ module.exports = createCoreController(
           first_name,
           middle_name,
           email,
-          gender
+          gender,
         } = ctx.request.body;
 
         let myPayload = {
           data: {},
           message: `Faculty No. "${faculty_no}" Successfully Updated`,
-          status: "success"
+          status: "success",
         };
 
         let existingPayload = {
           message: `Faculy No. "${faculty_no}" already exist!`,
-          status: 'fail'
-        }
+          status: "fail",
+        };
 
         //Validate if faculty no is already exist
         if (faculty_no_duplicate != faculty_no) {
-          const checkDuplicate = await strapi.db.query("api::teacher-account.teacher-account").findMany({
-            where: {
-              faculty_no: faculty_no
-            }
-          });
+          const checkDuplicate = await strapi.db
+            .query("api::teacher-account.teacher-account")
+            .findMany({
+              where: {
+                faculty_no: faculty_no,
+              },
+            });
 
           if (checkDuplicate.length != 0) {
             console.log("[updateClassDetails] Error: ", checkDuplicate);
-            return ctx.body = existingPayload;
+            return (ctx.body = existingPayload);
           }
         }
 
@@ -168,8 +227,8 @@ module.exports = createCoreController(
             first_name: first_name,
             middle_name: middle_name,
             email: email,
-            gender: gender
-          }
+            gender: gender,
+          },
         });
 
         // Update teacher user account
@@ -181,15 +240,15 @@ module.exports = createCoreController(
             first_name: first_name,
             middle_name: middle_name,
             email: email,
-            gender: gender
-          }
+            gender: gender,
+          },
         });
 
         return ctx.send(myPayload);
       } catch (err) {
         console.log("[updateTeacherAccount] Error: ", err.message);
-      return ctx.badRequest(err.message, err);
+        return ctx.badRequest(err.message, err);
       }
-    }
+    },
   })
 );
