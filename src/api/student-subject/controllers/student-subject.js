@@ -1,5 +1,7 @@
 "use strict";
 
+const teacherAccount = require("../../teacher-account/controllers/teacher-account");
+
 /**
  * student-subject controller
  */
@@ -13,74 +15,77 @@ module.exports = createCoreController(
     async createStudentSubject(ctx) {
       try {
         let {
-            class_id,
-            student_id,
-            student_no,
-            subject_code,
-            course_code,
-            course_description,
-            section,
-            unit,
-            semester,
-            school_year,
-            grade,
-            numeric_grade,
-            remarks,
-            teacher_id
+          class_id,
+          student_id,
+          student_no,
+          subject_code,
+          course_code,
+          course_description,
+          section,
+          unit,
+          semester,
+          school_year,
+          grade,
+          numeric_grade,
+          remarks,
+          teacher_id,
         } = ctx.request.body;
 
         let myPayload = {
-            data: {},
-            message: "Successfully Created!",
-            status: "success",
+          data: {},
+          message: "Successfully Created!",
+          status: "success",
         };
 
         let existingPayload = {
-            message: `Student ${student_no} already added to the subject ${subject_code}.`,
-            status: 'fail'
+          message: `Student ${student_no} already added to the subject ${subject_code}.`,
+          status: "fail",
         };
 
-        const checkDuplicate = await strapi.db.query("api::student-subject.student-subject")
-        .findMany({
+        const checkDuplicate = await strapi.db
+          .query("api::student-subject.student-subject")
+          .findMany({
             where: {
-                //teacher_id: teacher_id,
-                student_no: student_no,
-                course_code: course_code,
-                // section: section,
-                subject_code: subject_code,
-                semester: semester,
-                school_year: school_year
-            }
-        });
+              //teacher_id: teacher_id,
+              student_no: student_no,
+              course_code: course_code,
+              // section: section,
+              subject_code: subject_code,
+              semester: semester,
+              school_year: school_year,
+            },
+          });
 
         if (checkDuplicate.length != 0) {
-            console.log("[createStudentSubject] Error: ", checkDuplicate);
-            return ctx.body = existingPayload;
+          console.log("[createStudentSubject] Error: ", checkDuplicate);
+          return (ctx.body = existingPayload);
         }
-        
-        const result = await strapi.db.query("api::student-subject.student-subject").create({
+
+        const result = await strapi.db
+          .query("api::student-subject.student-subject")
+          .create({
             data: {
-                class_id: class_id,
-            student_id: student_id,
-            student_no: student_no,
-            subject_code: subject_code,
-            course_code: course_code,
-            course_description: course_description,
-            section: section,
-            unit: unit,
-            semester: semester,
-            school_year: school_year,
-            grade: grade,
-            numeric_grade: numeric_grade,
-            remarks: remarks,
-            teacher_id: teacher_id
-            }
-        });
+              class_id: class_id,
+              student_id: student_id,
+              student_no: student_no,
+              subject_code: subject_code,
+              course_code: course_code,
+              course_description: course_description,
+              section: section,
+              unit: unit,
+              semester: semester,
+              school_year: school_year,
+              grade: grade,
+              numeric_grade: numeric_grade,
+              remarks: remarks,
+              teacher_id: teacher_id,
+            },
+          });
 
         if (result) {
-            myPayload.data = result;
-            ctx.status = 200;
-            return ctx.body = myPayload;
+          myPayload.data = result;
+          ctx.status = 200;
+          return (ctx.body = myPayload);
         }
       } catch (err) {
         console.log("[createStudentSubject] Error: ", err.message);
@@ -89,8 +94,8 @@ module.exports = createCoreController(
     },
 
     async getStudentSubjectList(ctx) {
-      try { 
-        console.log("[getStudentSubjectList] Incoming Request")
+      try {
+        console.log("[getStudentSubjectList] Incoming Request");
         const { classid } = ctx.params;
 
         // const result = await strapi.entityService.findMany("api::student-subject.student-subject", {
@@ -137,41 +142,37 @@ module.exports = createCoreController(
       try {
         console.log("[addSubjectGrade] Incoming Request");
         const { documentid } = ctx.params;
-        let {
-          grade,
-          numeric_grade,
-          remarks,
-          incomplete,
-          fda,
-          dropped
-        } = ctx.request.body;
+        let { grade, numeric_grade, remarks, incomplete, fda, dropped } =
+          ctx.request.body;
 
         let myPayload = {
           data: {},
           message: "Successfully added a grade",
-          status: "success"
+          status: "success",
         };
 
-        const result = await strapi.db.query("api::student-subject.student-subject").update({
-          where: { documentId: documentid },
-          data: {
-            grade: grade,
-            numeric_grade: numeric_grade,
-            remarks: remarks,
-            incomplete: incomplete,
-            fda: fda,
-            dropped: dropped
-          }
-        });
+        const result = await strapi.db
+          .query("api::student-subject.student-subject")
+          .update({
+            where: { documentId: documentid },
+            data: {
+              grade: grade,
+              numeric_grade: numeric_grade,
+              remarks: remarks,
+              incomplete: incomplete,
+              fda: fda,
+              dropped: dropped,
+            },
+          });
 
         if (result) {
           myPayload.data = result;
           ctx.status = 200;
-          return ctx.body = myPayload;
+          return (ctx.body = myPayload);
         }
       } catch (err) {
         console.log("[addSubjectGrade] Error: ", err.message);
-      return ctx.badRequest(err.message, err);
+        return ctx.badRequest(err.message, err);
       }
     },
 
@@ -184,11 +185,13 @@ module.exports = createCoreController(
           message: "Succesfully Deleted!",
           status: "success",
         };
-  
-        const result = await strapi.db.query("api::student-subject.student-subject").delete({
-          where: { documentId: documentid },
-        });
-  
+
+        const result = await strapi.db
+          .query("api::student-subject.student-subject")
+          .delete({
+            where: { documentId: documentid },
+          });
+
         if (result) {
           myPayload.data = result;
           ctx.status = 200;
@@ -198,6 +201,46 @@ module.exports = createCoreController(
         console.log("[deleteSubjectGrade] Error: ", err.message);
         return ctx.badRequest(err.message, err);
       }
-    }
+    },
+
+    async getStudentGrades(ctx) {
+      try {
+        console.log("[getClassList] Incoming Request");
+        const { studentid } = ctx.params;
+
+        // const result = await strapi.entityService.findMany("api::student-subject.student-subject", {
+        //   filters: {
+        //     student_id: { $eq: studentid }
+        //   }
+        // }).catch(err => {
+        //   console.log(err);
+        // })
+        // if (result) {
+        //   ctx.status = 200;
+        //   return ctx.body = result;
+        // }
+
+        const myQuery = `SELECT DISTINCT ON (student_subjects.subject_code) student_subjects.id, student_subjects.document_id, student_subjects.student_id, student_subjects.student_no, student_subjects.course_code, student_subjects.course_description,
+                        student_subjects.section, student_subjects.subject_code, subjects.title, student_subjects.unit, student_subjects.grade, student_subjects.numeric_grade, student_subjects.remarks,
+                        student_subjects.school_year, student_subjects.semester, student_subjects.finalize_grade, student_subjects.class_id, student_subjects.teacher_id,
+                        json_object(ARRAY['teacher_id', 'faculty_no', 'last_name', 'first_name', 'middle_name', 'department'], ARRAY[teacher_accounts.teacher_id, teacher_accounts.faculty_no, 
+                        teacher_accounts.last_name, teacher_accounts.first_name, teacher_accounts.middle_name, teacher_accounts.department]) AS teacher_details, student_subjects.created_at
+                        FROM student_subjects
+                        LEFT JOIN subjects on student_subjects.subject_code = subjects.code
+                        LEFT JOIN teacher_accounts on student_subjects.teacher_id = teacher_accounts.teacher_id
+                        WHERE student_subjects.student_id = '${studentid}'
+                        ORDER BY student_subjects.subject_code ASC`;
+        let result = await strapi.db.connection.context.raw(myQuery);
+        
+        if (result) {
+          ctx.status = 200;
+          ctx.body = result.rows
+        }
+
+      } catch (err) {
+        ctx.body = err.message;
+        ctx.status = 404;
+      }
+    },
   })
 );

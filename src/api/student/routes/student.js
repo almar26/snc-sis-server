@@ -68,6 +68,11 @@ const myExtraRoutes = [
         method: "DELETE",
         path: '/student/delete/:documentid',
         handler: "student.deleteStudent"
+    },
+    {
+        method: "GET",
+        path: '/student/search',
+        handler: "student.searchStudent"
     }
 ]
 

@@ -65,8 +65,8 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
     const results = [];
     let myPayload = {
       message: "CSV Imported Successfully",
-      status: "success"
-    }
+      status: "success",
+    };
 
     // Read the CSV file
     fs.createReadStream(filePath)
@@ -98,7 +98,6 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
             });
             //ctx.send({ message: "CSV imported successfully", data: results });
             //console.log("Uploaded: ", response);
-            
           } catch (err) {
             console.error(
               "Error uploading record:",
@@ -167,7 +166,9 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
       //   .catch((err) => {
       //     console.log(err);
       //   });
-      const result = await strapi.db.query("api::student.student").findMany({ orderBy: { id: 'ASC'}});
+      const result = await strapi.db
+        .query("api::student.student")
+        .findMany({ orderBy: { id: "ASC" } });
       if (result) {
         ctx.status = 200;
         return (ctx.body = result);
@@ -408,6 +409,40 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
     } catch (err) {
       console.log("[deleteStudent] Error: ", err.message);
       return ctx.badRequest(err.message, err);
+    }
+  },
+
+  // Search Student
+  async searchStudent(ctx) {
+    try {
+      console.log("[searchStudent] Incoming Request");
+      const queryObj = ctx.request.query;
+      console.log("Query Param: ", queryObj);
+      const result = await strapi.db.query("api::student.student").findMany({
+        where: {
+          $or: [
+            {
+              student_no: queryObj.searchid,
+            },
+            {
+              last_name: { $eqi: queryObj.searchid },
+            },
+            {
+              first_name: queryObj.searchid,
+            },
+          ],
+        },
+        orderBy: { student_no: "ASC" },
+      });
+
+      if (result) {
+        ctx.status = 200;
+        return (ctx.body = result);
+      }
+    } catch (err) {
+      console.log("[searchStudent] Error: ", err.message);
+      ctx.body = err.message;
+      ctx.status = 404;
     }
   },
 }));

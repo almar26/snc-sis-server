@@ -42,6 +42,11 @@ const myExtraRoutes = [
         method: 'DELETE',
         path: '/student-subject/delete/:documentid',
         handler: 'student-subject.deleteSubjectGrade'
-    }
+    },
+    {
+        method: 'GET',
+        path: '/student-subject/grades/:studentid',
+        handler: 'student-subject.getStudentGrades'
+    },
 ]
 module.exports = customRouter(defaultRouter, myExtraRoutes);
