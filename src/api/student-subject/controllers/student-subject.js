@@ -206,8 +206,9 @@ module.exports = createCoreController(
     async getStudentGrades(ctx) {
       try {
         console.log("[getClassList] Incoming Request");
-        const { studentid } = ctx.params;
-
+        //const { studentid } = ctx.params;
+        const queryObj = ctx.request.query;
+        console.log("Query Param 2: ", queryObj);
         // const result = await strapi.entityService.findMany("api::student-subject.student-subject", {
         //   filters: {
         //     student_id: { $eq: studentid }
@@ -228,7 +229,7 @@ module.exports = createCoreController(
                         FROM student_subjects
                         LEFT JOIN subjects on student_subjects.subject_code = subjects.code
                         LEFT JOIN teacher_accounts on student_subjects.teacher_id = teacher_accounts.teacher_id
-                        WHERE student_subjects.student_id = '${studentid}'
+                        WHERE student_subjects.student_id = '${queryObj.studentid}' AND student_subjects.semester = '${queryObj.semester}' AND student_subjects.school_year = '${queryObj.sy}'
                         ORDER BY student_subjects.subject_code ASC`;
         let result = await strapi.db.connection.context.raw(myQuery);
         

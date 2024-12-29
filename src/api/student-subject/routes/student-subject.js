@@ -45,7 +45,7 @@ const myExtraRoutes = [
     },
     {
         method: 'GET',
-        path: '/student-subject/grades/:studentid',
+        path: '/student-subject/grades',
         handler: 'student-subject.getStudentGrades'
     },
 ]
