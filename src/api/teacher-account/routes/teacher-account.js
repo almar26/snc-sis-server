@@ -42,6 +42,11 @@ const myExtraRoutes = [
         method: 'PUT',
         path: '/teacher-account/update/:teacherid',
         handler: 'teacher-account.updateTeacherAccount'
+    },
+    {
+        method: 'GET',
+        path: '/teacher-acccount/details/:teacherid',
+        handler: 'teacher-account.getTeacherDetails'
     }
 ]
 

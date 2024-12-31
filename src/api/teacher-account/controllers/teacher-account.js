@@ -250,5 +250,28 @@ module.exports = createCoreController(
         return ctx.badRequest(err.message, err);
       }
     },
+
+    // Get teacher's account details
+    async getTeacherDetails(ctx) {
+      try {
+        console.log("[getTeacherDetails] Incoming Request");
+        const { teacherid } = ctx.params;
+
+        const result = await strapi.entityService.findMany("api::teacher-account.teacher-account", {
+          filters: {
+            teacher_id: { $eq: teacherid },
+          }
+        })
+
+        if (result) {
+          console.log(result);
+          ctx.status = 200;
+          return ctx.body = result;
+        }
+      } catch(err) {
+        console.log("[getTeacherDetails] Error: ", err.message);
+        return ctx.badRequest(err.message, err);
+      }
+    }
   })
 );
