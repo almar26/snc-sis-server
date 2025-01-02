@@ -47,7 +47,8 @@ module.exports = createCoreController(
           .findMany({
             where: {
               //teacher_id: teacher_id,
-              student_no: student_no,
+              student_id: student_id,
+              //student_no: student_no,
               course_code: course_code,
               // section: section,
               subject_code: subject_code,
