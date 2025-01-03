@@ -47,6 +47,11 @@ const myExtraRoutes = [
         method: 'GET',
         path: '/teacher-acccount/details/:teacherid',
         handler: 'teacher-account.getTeacherDetails'
+    },
+    {
+        method: 'GET',
+        path: '/teacher-acccount/teachers-list',
+        handler: 'teacher-account.getTeachersList'
     }
 ]
 

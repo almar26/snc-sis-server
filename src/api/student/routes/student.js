@@ -73,7 +73,12 @@ const myExtraRoutes = [
         method: "GET",
         path: '/student/search',
         handler: "student.searchStudent"
-    }
+    },
+    {
+        method: "PUT",
+        path: '/student/update-course/:documentid',
+        handler: "student.updateStudentCourse"
+    }, 
 ]
 
 

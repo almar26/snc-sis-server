@@ -445,4 +445,43 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
       ctx.status = 404;
     }
   },
+
+  // Update student course
+  async updateStudentCourse(ctx) {
+    try {
+      console.log("[updateStudentCourse] Incoming Request");
+      const { documentid } = ctx.params;
+      let { course_code, course, major } = ctx.request.body;
+
+      let myPayload = {
+        data: {},
+        message: "Course Succefully Updated!",
+        status: "success",
+      };
+
+      // Update Course of the student in the students table
+      await strapi.db.query("api::student.student").update({
+        where: { documentId: documentid },
+        data: {
+          course_code: course_code,
+          course: course,
+          major: major,
+        },
+      });
+
+      // Update student course in the student-subject table
+      await strapi.db.query("api::student-subject.student-subject").updateMany({
+        where: { student_id: documentid },
+        data: {
+          course_code: course_code,
+          course_description: course
+        }
+      })
+
+      return ctx.send(myPayload);
+    } catch (err) {
+      console.log("[updateStudentCourse] Error: ", err.message);
+      return ctx.badRequest(err.message, err);
+    }
+  },
 }));
