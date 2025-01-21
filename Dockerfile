@@ -1,6 +1,6 @@
 # Use the official lightweight Node.js image.
 # https://hub.docker.com/_/node
-FROM node:18-slim
+FROM node:20-slim
 # Installing libvips-dev for sharp compatibility
 RUN apt-get update && apt-get install libvips-dev -y
 ARG NODE_ENV=production
