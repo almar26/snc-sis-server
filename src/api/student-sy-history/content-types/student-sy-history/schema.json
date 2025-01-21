@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "student_sy_histories",
+  "info": {
+    "singularName": "student-sy-history",
+    "pluralName": "student-sy-histories",
+    "displayName": "StudentSYHistory",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "student_id": {
+      "type": "string"
+    },
+    "course_code": {
+      "type": "string"
+    },
+    "course_description": {
+      "type": "string"
+    },
+    "school_year": {
+      "type": "string"
+    },
+    "semester": {
+      "type": "string"
+    }
+  }
+}

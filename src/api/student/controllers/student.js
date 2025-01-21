@@ -451,7 +451,7 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
     try {
       console.log("[updateStudentCourse] Incoming Request");
       const { documentid } = ctx.params;
-      let { course_code, course, major } = ctx.request.body;
+      let { course_code, course, major, course_type } = ctx.request.body;
 
       let myPayload = {
         data: {},
@@ -466,6 +466,7 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
           course_code: course_code,
           course: course,
           major: major,
+          course_type: course_type
         },
       });
 

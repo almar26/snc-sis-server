@@ -784,6 +784,39 @@ export interface ApiStudentSubjectStudentSubject
   };
 }
 
+export interface ApiStudentSyHistoryStudentSyHistory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'student_sy_histories';
+  info: {
+    singularName: 'student-sy-history';
+    pluralName: 'student-sy-histories';
+    displayName: 'StudentSYHistory';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    student_id: Schema.Attribute.String;
+    course_code: Schema.Attribute.String;
+    course_description: Schema.Attribute.String;
+    school_year: Schema.Attribute.String;
+    semester: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::student-sy-history.student-sy-history'
+    >;
+  };
+}
+
 export interface ApiSubjectSubject extends Struct.CollectionTypeSchema {
   collectionName: 'subjects';
   info: {
@@ -1245,6 +1278,7 @@ declare module '@strapi/strapi' {
       'api::semester.semester': ApiSemesterSemester;
       'api::student.student': ApiStudentStudent;
       'api::student-subject.student-subject': ApiStudentSubjectStudentSubject;
+      'api::student-sy-history.student-sy-history': ApiStudentSyHistoryStudentSyHistory;
       'api::subject.subject': ApiSubjectSubject;
       'api::teacher-account.teacher-account': ApiTeacherAccountTeacherAccount;
       'admin::permission': AdminPermission;

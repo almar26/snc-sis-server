@@ -1,11 +1,11 @@
 'use strict';
 
 /**
- * school-year router
+ * student-sy-history router
  */
 // @ts-ignore
 const { createCoreRouter } = require('@strapi/strapi').factories;
-const defaultRouter = createCoreRouter("api::school-year.school-year");
+const defaultRouter = createCoreRouter("api::student-sy-history.student-sy-history");
 
 const customRouter = (innerRouter, extraRoutes = []) => {
     let routes;
@@ -24,15 +24,15 @@ const customRouter = (innerRouter, extraRoutes = []) => {
 const myExtraRoutes = [
     {
         method: 'GET',
-        path: '/school-year/active',
-        handler: 'school-year.getActiveSchoolYear'
+        path: '/sy-history/student/:studentid',
+        handler: 'student-sy-history.getStudentSYHistory'
     },
     {
-        method: "GET",
-        path: "/school-year/list",
-        handler: 'school-year.getAllSchoolYear'
+        method: 'POST',
+        path: '/sy-history/student/create',
+        handler: 'student-sy-history.createStudentSYHistory'
     }
+  
 ]
-
 
 module.exports = customRouter(defaultRouter, myExtraRoutes);
