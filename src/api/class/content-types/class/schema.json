@@ -4,7 +4,8 @@
   "info": {
     "singularName": "class",
     "pluralName": "classes",
-    "displayName": "Class"
+    "displayName": "Class",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -52,6 +53,12 @@
     },
     "time_end": {
       "type": "time"
+    },
+    "faculty_no": {
+      "type": "string"
+    },
+    "finalize": {
+      "type": "boolean"
     }
   }
 }

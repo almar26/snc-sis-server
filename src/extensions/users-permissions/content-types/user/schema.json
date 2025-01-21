@@ -67,6 +67,24 @@
     },
     "role_view": {
       "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "middle_name": {
+      "type": "string"
+    },
+    "department": {
+      "type": "string"
+    },
+    "teacher_id": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "string"
     }
   }
 }

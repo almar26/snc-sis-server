@@ -31,8 +31,13 @@ const myExtraRoutes = [
     },
     {
         method: 'GET',
-        path: '/student/list/:coursetype',
+        path: '/student/list',
         handler: 'student.getStudentList'
+    },
+    {
+        method: 'GET',
+        path: '/student/list/:coursetype',
+        handler: 'student.getStudentListCourseType'
     },
     {
         method: 'POST',
@@ -53,7 +58,27 @@ const myExtraRoutes = [
         method: 'POST',
         path: '/student/import-diploma',
         handler: 'student.importDiplomaCSV'
-    }
+    },
+    {
+        method: "PUT",
+        path: '/student/update/:documentid',
+        handler: "student.updateStudentDetails"
+    }, 
+    {
+        method: "DELETE",
+        path: '/student/delete/:documentid',
+        handler: "student.deleteStudent"
+    },
+    {
+        method: "GET",
+        path: '/student/search',
+        handler: "student.searchStudent"
+    },
+    {
+        method: "PUT",
+        path: '/student/update-course/:documentid',
+        handler: "student.updateStudentCourse"
+    }, 
 ]
 
 

@@ -40,8 +40,23 @@ const myExtraRoutes = [
     },
     {
         method: 'GET',
+        path: '/course/list-type/:coursetype',
+        handler: 'course.getCourseListByType'
+    },
+    {
+        method: 'GET',
         path: '/course/details/:documentid',
         handler: 'course.getCourseDetails'
+    },
+    {
+        method: 'PUT',
+        path: '/course/update/:documentid',
+        handler: 'course.updateCourseDetails'
+    },
+    {
+        method: "DELETE",
+        path: '/course/delete/:documentid',
+        handler: "course.deleteCourse"
     }
 ]
 

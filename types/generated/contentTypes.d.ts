@@ -470,6 +470,12 @@ export interface PluginUsersPermissionsUser
       'plugin::users-permissions.role'
     >;
     role_view: Schema.Attribute.String;
+    last_name: Schema.Attribute.String;
+    first_name: Schema.Attribute.String;
+    middle_name: Schema.Attribute.String;
+    department: Schema.Attribute.String;
+    teacher_id: Schema.Attribute.String;
+    gender: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -491,6 +497,7 @@ export interface ApiClassClass extends Struct.CollectionTypeSchema {
     singularName: 'class';
     pluralName: 'classes';
     displayName: 'Class';
+    description: '';
   };
   options: {
     draftAndPublish: false;
@@ -510,6 +517,8 @@ export interface ApiClassClass extends Struct.CollectionTypeSchema {
     days: Schema.Attribute.String;
     time_start: Schema.Attribute.Time;
     time_end: Schema.Attribute.Time;
+    faculty_no: Schema.Attribute.String;
+    finalize: Schema.Attribute.Boolean;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -616,6 +625,38 @@ export interface ApiExcelImportExcelImport extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiSchoolYearSchoolYear extends Struct.CollectionTypeSchema {
+  collectionName: 'school_years';
+  info: {
+    singularName: 'school-year';
+    pluralName: 'school-years';
+    displayName: 'SchoolYear';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    school_year: Schema.Attribute.String;
+    school_year_start: Schema.Attribute.Integer;
+    school_year_end: Schema.Attribute.Integer;
+    semester: Schema.Attribute.String;
+    sy_status: Schema.Attribute.String;
+    active_sy: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::school-year.school-year'
+    >;
+  };
+}
+
 export interface ApiSemesterSemester extends Struct.CollectionTypeSchema {
   collectionName: 'semesters';
   info: {
@@ -676,6 +717,7 @@ export interface ApiStudentStudent extends Struct.CollectionTypeSchema {
     course_type: Schema.Attribute.String;
     course_code: Schema.Attribute.String;
     section: Schema.Attribute.String;
+    school_year: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -698,6 +740,7 @@ export interface ApiStudentSubjectStudentSubject
     singularName: 'student-subject';
     pluralName: 'student-subjects';
     displayName: 'StudentSubject';
+    description: '';
   };
   options: {
     draftAndPublish: false;
@@ -712,11 +755,20 @@ export interface ApiStudentSubjectStudentSubject
     section: Schema.Attribute.String;
     unit: Schema.Attribute.Integer;
     grade: Schema.Attribute.Decimal;
-    numeric_grade: Schema.Attribute.Decimal;
+    numeric_grade: Schema.Attribute.String;
     school_year: Schema.Attribute.String;
     semester: Schema.Attribute.String;
-    teacherid: Schema.Attribute.String;
+    teacher_id: Schema.Attribute.String;
     subject_status: Schema.Attribute.String;
+    class_id: Schema.Attribute.String;
+    student_id: Schema.Attribute.String;
+    remarks: Schema.Attribute.String;
+    finalize_grade: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    incomplete: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    fda: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    dropped: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    udropped: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -728,6 +780,39 @@ export interface ApiStudentSubjectStudentSubject
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::student-subject.student-subject'
+    >;
+  };
+}
+
+export interface ApiStudentSyHistoryStudentSyHistory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'student_sy_histories';
+  info: {
+    singularName: 'student-sy-history';
+    pluralName: 'student-sy-histories';
+    displayName: 'StudentSYHistory';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    student_id: Schema.Attribute.String;
+    course_code: Schema.Attribute.String;
+    course_description: Schema.Attribute.String;
+    school_year: Schema.Attribute.String;
+    semester: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::student-sy-history.student-sy-history'
     >;
   };
 }
@@ -755,6 +840,7 @@ export interface ApiSubjectSubject extends Struct.CollectionTypeSchema {
     lab: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     resultant: Schema.Attribute.String;
     course_code: Schema.Attribute.String;
+    course_id: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -793,6 +879,7 @@ export interface ApiTeacherAccountTeacherAccount
     birthday: Schema.Attribute.String;
     gender: Schema.Attribute.String;
     teacher_status: Schema.Attribute.String;
+    role_view: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -1187,9 +1274,11 @@ declare module '@strapi/strapi' {
       'api::course.course': ApiCourseCourse;
       'api::curriculum.curriculum': ApiCurriculumCurriculum;
       'api::excel-import.excel-import': ApiExcelImportExcelImport;
+      'api::school-year.school-year': ApiSchoolYearSchoolYear;
       'api::semester.semester': ApiSemesterSemester;
       'api::student.student': ApiStudentStudent;
       'api::student-subject.student-subject': ApiStudentSubjectStudentSubject;
+      'api::student-sy-history.student-sy-history': ApiStudentSyHistoryStudentSyHistory;
       'api::subject.subject': ApiSubjectSubject;
       'api::teacher-account.teacher-account': ApiTeacherAccountTeacherAccount;
       'admin::permission': AdminPermission;

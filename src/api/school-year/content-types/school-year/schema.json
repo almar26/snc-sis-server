@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "school_years",
+  "info": {
+    "singularName": "school-year",
+    "pluralName": "school-years",
+    "displayName": "SchoolYear"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "school_year": {
+      "type": "string"
+    },
+    "school_year_start": {
+      "type": "integer"
+    },
+    "school_year_end": {
+      "type": "integer"
+    },
+    "semester": {
+      "type": "string"
+    },
+    "sy_status": {
+      "type": "string"
+    },
+    "active_sy": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

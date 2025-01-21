@@ -4,7 +4,8 @@
   "info": {
     "singularName": "student-subject",
     "pluralName": "student-subjects",
-    "displayName": "StudentSubject"
+    "displayName": "StudentSubject",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -39,7 +40,7 @@
       "type": "decimal"
     },
     "numeric_grade": {
-      "type": "decimal"
+      "type": "string"
     },
     "school_year": {
       "type": "string"
@@ -47,11 +48,40 @@
     "semester": {
       "type": "string"
     },
-    "teacherid": {
+    "teacher_id": {
       "type": "string"
     },
     "subject_status": {
       "type": "string"
+    },
+    "class_id": {
+      "type": "string"
+    },
+    "student_id": {
+      "type": "string"
+    },
+    "remarks": {
+      "type": "string"
+    },
+    "finalize_grade": {
+      "type": "boolean",
+      "default": false
+    },
+    "incomplete": {
+      "type": "boolean",
+      "default": false
+    },
+    "fda": {
+      "type": "boolean",
+      "default": false
+    },
+    "dropped": {
+      "type": "boolean",
+      "default": false
+    },
+    "udropped": {
+      "type": "boolean",
+      "default": true
     }
   }
 }
