@@ -59,6 +59,7 @@ module.exports = createCoreController(
         const checkDuplicate = await strapi.db.query("api::student-sy-history.student-sy-history").findMany({
           where: {
             student_id: student_id,
+            course_code: course_code,
             school_year: school_year,
             semester: semester
           }
@@ -96,11 +97,6 @@ module.exports = createCoreController(
           }
         })
 
-        // if (result) {
-        //   myPayload.data = result;
-        //   ctx.status = 200;
-        //   return (ctx.body = myPayload);
-        // }
         return ctx.send(myPayload);
       } catch (err) {
         console.log("[createStudentSYHistory] Error: ", err.message);

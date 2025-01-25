@@ -222,8 +222,9 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
         birthday,
         age,
         semester,
-        school_year_start,
-        school_year_end,
+        // school_year_start,
+        // school_year_end,
+        school_year,
         address,
         course_type,
       } = ctx.request.body;
@@ -253,6 +254,7 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
         //return ctx.badRequest();
       }
 
+      // Create New Student
       const result = await strapi.db.query("api::student.student").create({
         data: {
           student_no: student_no,
@@ -266,12 +268,28 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
           birthday: birthday,
           age: age,
           semester: semester,
-          school_year_start: school_year_start,
-          school_year_end: school_year_end,
+          // school_year_start: school_year_start,
+          // school_year_end: school_year_end,
+          school_year: school_year,
           address: address,
           course_type: course_type,
         },
       });
+
+      // Add New School Year
+      await strapi.db
+        .query("api::student-sy-history.student-sy-history")
+        .create({
+          data: {
+            student_id: result.documentId,
+            course_code: course_code,
+            course_description: course,
+            school_year: school_year,
+            semester: semester,
+          },
+        });
+
+      console.log("New Student: ", result.documentId);
 
       if (result) {
         myPayload.data = result;
@@ -451,11 +469,19 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
     try {
       console.log("[updateStudentCourse] Incoming Request");
       const { documentid } = ctx.params;
-      let { course_code, course, major, course_type } = ctx.request.body;
+      let {
+        course_code,
+        course,
+        major,
+        course_type,
+        school_year,
+        semester,
+        change_course,
+      } = ctx.request.body;
 
       let myPayload = {
         data: {},
-        message: "Course Succefully Updated!",
+        message: "Course Successfully Updated!",
         status: "success",
       };
 
@@ -466,20 +492,66 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
           course_code: course_code,
           course: course,
           major: major,
-          course_type: course_type
+          course_type: course_type,
         },
       });
 
       // Update student course in the student-subject table
-      await strapi.db.query("api::student-subject.student-subject").updateMany({
+      const result = await strapi.db.query("api::student-subject.student-subject").updateMany({
         where: { student_id: documentid },
         data: {
           course_code: course_code,
-          course_description: course
-        }
-      })
+          course_description: course,
+        },
+      });
 
-      return ctx.send(myPayload);
+      // if (change_course == true) {
+      //   console.log("Course changed");
+      // } else {
+      //   console.log("Course not changed");
+      // }
+
+      // Check course and school year if exist in the enrollment history
+      const checkDuplicateHistory = await strapi.db
+        .query("api::student-sy-history.student-sy-history")
+        .findMany({
+          where: {
+            student_id: documentid,
+            course_code: course_code,
+            school_year: school_year,
+            semester: semester,
+          },
+        });
+
+      if (checkDuplicateHistory.length != 0) {
+        console.log(
+          "Course and school year already exist in the enrollment history"
+        );
+      } else {
+        console.log("Course changed!");
+
+        // Add New School Year
+        await strapi.db
+          .query("api::student-sy-history.student-sy-history")
+          .create({
+            data: {
+              student_id: documentid,
+              course_code: course_code,
+              course_description: course,
+              school_year: school_year,
+              semester: semester,
+            },
+          });
+      }
+    
+     
+        myPayload.data = result;
+        ctx.status = 200;
+        return ctx.send(myPayload);
+      
+        
+  
+      //return ctx.send(myPayload);
     } catch (err) {
       console.log("[updateStudentCourse] Error: ", err.message);
       return ctx.badRequest(err.message, err);
