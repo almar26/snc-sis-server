@@ -29,6 +29,12 @@
     },
     "course_type": {
       "type": "string"
+    },
+    "student_curriculum": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::student-curriculum.student-curriculum",
+      "inversedBy": "curriculum"
     }
   }
 }

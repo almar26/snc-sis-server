@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "student_curricula",
+  "info": {
+    "singularName": "student-curriculum",
+    "pluralName": "student-curricula",
+    "displayName": "StudentCurriculum",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "student_id": {
+      "type": "string"
+    },
+    "curriculum": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::curriculum.curriculum"
+    }
+  }
+}

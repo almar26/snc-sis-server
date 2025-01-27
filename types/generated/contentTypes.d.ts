@@ -580,6 +580,10 @@ export interface ApiCurriculumCurriculum extends Struct.CollectionTypeSchema {
     year: Schema.Attribute.String;
     course_description: Schema.Attribute.String;
     course_type: Schema.Attribute.String;
+    student_curriculum: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::student-curriculum.student-curriculum'
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -729,6 +733,39 @@ export interface ApiStudentStudent extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::student.student'
+    >;
+  };
+}
+
+export interface ApiStudentCurriculumStudentCurriculum
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'student_curricula';
+  info: {
+    singularName: 'student-curriculum';
+    pluralName: 'student-curricula';
+    displayName: 'StudentCurriculum';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    student_id: Schema.Attribute.String;
+    curriculum: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::curriculum.curriculum'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::student-curriculum.student-curriculum'
     >;
   };
 }
@@ -1277,6 +1314,7 @@ declare module '@strapi/strapi' {
       'api::school-year.school-year': ApiSchoolYearSchoolYear;
       'api::semester.semester': ApiSemesterSemester;
       'api::student.student': ApiStudentStudent;
+      'api::student-curriculum.student-curriculum': ApiStudentCurriculumStudentCurriculum;
       'api::student-subject.student-subject': ApiStudentSubjectStudentSubject;
       'api::student-sy-history.student-sy-history': ApiStudentSyHistoryStudentSyHistory;
       'api::subject.subject': ApiSubjectSubject;

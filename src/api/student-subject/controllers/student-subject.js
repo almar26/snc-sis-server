@@ -1,5 +1,6 @@
 "use strict";
 
+const student = require("../../student/controllers/student");
 const teacherAccount = require("../../teacher-account/controllers/teacher-account");
 
 /**
@@ -233,13 +234,57 @@ module.exports = createCoreController(
                         WHERE student_subjects.student_id = '${queryObj.studentid}' AND student_subjects.semester = '${queryObj.semester}' AND student_subjects.school_year = '${queryObj.sy}'
                         ORDER BY student_subjects.subject_code ASC`;
         let result = await strapi.db.connection.context.raw(myQuery);
-        
+
         if (result) {
           ctx.status = 200;
-          ctx.body = result.rows
+          ctx.body = result.rows;
         }
-
       } catch (err) {
+        ctx.body = err.message;
+        ctx.status = 404;
+      }
+    },
+
+    // Get all subjects of the student
+    async getAllStudentSubjects(ctx) {
+      try {
+        console.log("[getAllStudentSubjects] Incoming Request");
+        const { studentid } = ctx.params;
+        // const result = await strapi.entityService
+        //   .findMany("api::student-subject.student-subject", {
+        //     filters: {
+        //       student_id: { $eq: studentid },
+        //     },
+        //     sort: { school_year: "ASC" },
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   });
+
+        // if (result) {
+        //   ctx.status = 200;
+        //   return (ctx.body = result);
+        // }
+        const myQuery = `SELECT student_subjects.id, student_subjects.document_id, student_subjects.student_id, student_subjects.student_no, student_subjects.subject_code, 
+                        subjects.title, student_subjects.unit, student_subjects.grade, student_subjects.numeric_grade, student_subjects.remarks, student_subjects.school_year,
+                        student_subjects.semester, student_subjects.finalize_grade, student_subjects.teacher_id,
+                        json_object(ARRAY['teacher_id', 'faculty_no', 'last_name', 'first_name', 'middle_name', 'department'], ARRAY[teacher_accounts.teacher_id, teacher_accounts.faculty_no, 
+                        teacher_accounts.last_name, teacher_accounts.first_name, teacher_accounts.middle_name, teacher_accounts.department]) AS teacher_details, student_subjects.created_at
+                        FROM student_subjects
+                        LEFT JOIN subjects on student_subjects.subject_code = subjects.code
+                        LEFT JOIN teacher_accounts on student_subjects.teacher_id = teacher_accounts.teacher_id
+                        WHERE student_subjects.student_id = '${studentid}'
+                        ORDER BY student_subjects.school_year ASC, student_subjects.subject_code ASC`;
+        
+        const result = await strapi.db.connection.context.raw(myQuery);
+
+        if (result) {
+          ctx.status = 200;
+          ctx.body = result.rows;
+        }
+      } catch (err) {
+        console.log("[getAllStudentSubjects] Error: ", err.message);
+        // return ctx.badRequest(err.message, err);
         ctx.body = err.message;
         ctx.status = 404;
       }
