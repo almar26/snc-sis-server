@@ -265,7 +265,7 @@ module.exports = createCoreController(
         //   ctx.status = 200;
         //   return (ctx.body = result);
         // }
-        const myQuery = `SELECT student_subjects.id, student_subjects.document_id, student_subjects.student_id, student_subjects.student_no, student_subjects.subject_code, 
+        const myQuery = `SELECT DISTINCT ON (student_subjects.subject_code) student_subjects.id, student_subjects.document_id, student_subjects.student_id, student_subjects.student_no, student_subjects.subject_code, 
                         subjects.title, student_subjects.unit, student_subjects.grade, student_subjects.numeric_grade, student_subjects.remarks, student_subjects.school_year,
                         student_subjects.semester, student_subjects.finalize_grade, student_subjects.teacher_id,
                         json_object(ARRAY['teacher_id', 'faculty_no', 'last_name', 'first_name', 'middle_name', 'department'], ARRAY[teacher_accounts.teacher_id, teacher_accounts.faculty_no, 
@@ -274,7 +274,7 @@ module.exports = createCoreController(
                         LEFT JOIN subjects on student_subjects.subject_code = subjects.code
                         LEFT JOIN teacher_accounts on student_subjects.teacher_id = teacher_accounts.teacher_id
                         WHERE student_subjects.student_id = '${studentid}'
-                        ORDER BY student_subjects.school_year ASC, student_subjects.subject_code ASC`;
+                        ORDER BY student_subjects.subject_code ASC, student_subjects.school_year ASC`;
         
         const result = await strapi.db.connection.context.raw(myQuery);
 
