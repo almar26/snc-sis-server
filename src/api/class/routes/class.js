@@ -56,6 +56,16 @@ const myExtraRoutes = [
         method: "PUT",
         path: '/class/finalized/:documentid',
         handler: "class.finalizeClass"
+    }, 
+    {
+        method: "GET",
+        path: '/class/class-list/unfinalized',
+        handler: "class.getUnfinalizedClassList"
+    },
+    {
+        method: "GET",
+        path: '/class/class-list/finalized',
+        handler: "class.getFinalizedClassList"
     }
 ]
 

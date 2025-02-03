@@ -18,7 +18,12 @@ module.exports = createCoreController(
           .query("api::student-sy-history.student-sy-history")
           .findMany({
             where: { student_id: studentid },
-            orderBy: { createdAt: "DESC" },
+            // orderBy: { createdAt: "DESC" },\
+            orderBy: {
+              school_year: "ASC",
+              semester: "ASC",
+              createdAt: "ASC"
+            }
           });
         if (result) {
           console.log(result);

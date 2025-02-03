@@ -58,7 +58,8 @@
       "type": "string"
     },
     "finalize": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": false
     }
   }
 }

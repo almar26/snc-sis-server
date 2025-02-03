@@ -50,6 +50,56 @@ module.exports = createCoreController("api::class.class", ({ strapi }) => ({
     }
   },
 
+  // Get Unfinalize Classes
+  async getUnfinalizedClassList(ctx) {
+    try {
+      console.log("[getUnfinalizedClassList] Incoming Request");
+      const queryObj = ctx.request.query;
+      const result = await strapi.db.query("api::class.class").findMany({
+        where: {
+          school_year: queryObj.sy,
+          semester: queryObj.semester,
+          $not: {
+            finalize: true
+          }
+        },
+        orderBy: { id: "ASC" },
+      })
+
+      if (result) {
+        ctx.status = 200;
+        return ctx.body = result;
+      }
+    } catch (err) {
+      ctx.body = err.message;
+      ctx.status = 404;
+    }
+  },
+
+  // Get Finalize Classes
+  async getFinalizedClassList(ctx) {
+    try {
+      console.log("[getFinalizedClassList] Incoming Request");
+      const queryObj = ctx.request.query;
+      const result = await strapi.db.query("api::class.class").findMany({
+        where: {
+          school_year: queryObj.sy,
+          semester: queryObj.semester,
+          finalize: true
+        },
+        orderBy: { id: "ASC" },
+      })
+
+      if (result) {
+        ctx.status = 200;
+        return ctx.body = result;
+      }
+    } catch (err) {
+      ctx.body = err.message;
+      ctx.status = 404;
+    }
+  },
+
   // Create Class
   async createClass(ctx) {
     try {
@@ -91,6 +141,7 @@ module.exports = createCoreController("api::class.class", ({ strapi }) => ({
             subject_code: subject_code,
             semester: semester,
             school_year: school_year,
+            finalize: false
           },
         });
 
