@@ -59,9 +59,17 @@ module.exports = createCoreController("api::class.class", ({ strapi }) => ({
         where: {
           school_year: queryObj.sy,
           semester: queryObj.semester,
-          $not: {
-            finalize: true
-          }
+          // $not: {
+          //   finalize: true
+          // }
+          $or: [
+            {
+              finalize: false,
+            },
+            {
+              finalize: null
+            }
+          ]
         },
         orderBy: { id: "ASC" },
       })
