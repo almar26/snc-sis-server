@@ -66,6 +66,11 @@ const myExtraRoutes = [
         method: "GET",
         path: '/class/class-list/finalized',
         handler: "class.getFinalizedClassList"
+    },
+    {
+        method: "GET",
+        path: '/class/list/student-list',
+        handler: "class.getClassStudents"
     }
 ]
 

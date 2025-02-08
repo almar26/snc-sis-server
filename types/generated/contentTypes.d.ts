@@ -531,6 +531,35 @@ export interface ApiClassClass extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiClassSettingClassSetting
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'class_settings';
+  info: {
+    singularName: 'class-setting';
+    pluralName: 'class-settings';
+    displayName: 'ClassSetting';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    enable_create_class: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::class-setting.class-setting'
+    >;
+  };
+}
+
 export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
   collectionName: 'courses';
   info: {
@@ -1308,6 +1337,7 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::class.class': ApiClassClass;
+      'api::class-setting.class-setting': ApiClassSettingClassSetting;
       'api::course.course': ApiCourseCourse;
       'api::curriculum.curriculum': ApiCurriculumCurriculum;
       'api::excel-import.excel-import': ApiExcelImportExcelImport;

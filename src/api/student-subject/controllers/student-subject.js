@@ -289,5 +289,32 @@ module.exports = createCoreController(
         ctx.status = 404;
       }
     },
+
+    async importMultipleStudentSubject(ctx) {
+      try {
+      console.log("[importMultipleStudentSubject] Incoming Request");
+      let { student_list } = ctx.request.body;
+
+      let myPayload = {
+        data: {},
+        message: "Successfully Created!",
+        status: "success"
+      };
+
+      const result = await strapi.db.query("api::student-subject.student-subject").createMany({
+        data: student_list
+      });
+
+      if (result) {
+        myPayload.data = result;
+        ctx.status = 200;
+        return ctx.body = myPayload;
+      }
+
+      } catch (err) {
+        console.log("[importMultipleStudentSubject] Error: ", err.message);
+        return ctx.badRequest(err.message, err);
+      }
+    }
   })
 );

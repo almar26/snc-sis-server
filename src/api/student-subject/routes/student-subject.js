@@ -53,5 +53,10 @@ const myExtraRoutes = [
         path: '/student-subject/all-subjects/:studentid',
         handler: 'student-subject.getAllStudentSubjects'
     },
+    {
+        method: 'POST',
+        path: '/student-subject/importMultipleStudents',
+        handler: 'student-subject.importMultipleStudentSubject'
+    },
 ]
 module.exports = customRouter(defaultRouter, myExtraRoutes);

@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "class_settings",
+  "info": {
+    "singularName": "class-setting",
+    "pluralName": "class-settings",
+    "displayName": "ClassSetting"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "enable_create_class": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

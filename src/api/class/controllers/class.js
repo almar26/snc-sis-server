@@ -323,5 +323,45 @@ module.exports = createCoreController("api::class.class", ({ strapi }) => ({
       console.log("[finalizeClass] Error: ", err.message);
       return ctx.badRequest(err.message, err);
     }
+  },
+
+
+  // Get List of classes with their students
+  async getClassStudents(ctx) {
+    try {
+      console.log("[getClassStudents] Incoming Request");
+      const queryObj = ctx.request.query;
+      const myQuery = `SELECT DISTINCT ON (classes.document_id) classes.id, classes.document_id, classes.teacher_id, classes.course_code, classes.section, classes.subject_code, classes.subject_description, classes.semester, classes.school_year, classes.units,
+                        ARRAY(SELECT json_build_object(
+                        'class_id', student_subjects.class_id,
+                        'subject_code', student_subjects.subject_code,
+                        'student_id', student_subjects.student_id,
+                        'student_no', student_subjects.student_no,
+                        'last_name', students.last_name,
+                        'first_name', students.first_name,
+                        'middle_name', students.middle_name,
+                        'course_code', students.course_code,
+                        'course_description', students.course
+                        )
+                        FROM student_subjects 
+                        LEFT JOIN students on student_subjects.student_id = students.document_id
+                        WHERE class_id = classes.document_id) AS student_list
+                         FROM classes
+                         LEFT JOIN student_subjects on classes.document_id = student_subjects.class_id
+                         
+                         WHERE classes.teacher_id = '${queryObj.teacherid}' AND classes.document_id != '${queryObj.classid}'
+                         ORDER BY classes.document_id ASC`;
+
+      const result = await strapi.db.connection.context.raw(myQuery);
+
+      if (result) {
+        ctx.status = 200;
+        ctx.body = result.rows;
+      }
+      
+    } catch (err) {
+      console.log("[getClassStudents] Error: ", err.message);
+      return ctx.badRequest(err.message, err);
+    }
   }
 }));
