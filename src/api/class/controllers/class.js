@@ -345,7 +345,8 @@ module.exports = createCoreController("api::class.class", ({ strapi }) => ({
                         )
                         FROM student_subjects 
                         LEFT JOIN students on student_subjects.student_id = students.document_id
-                        WHERE class_id = classes.document_id) AS student_list
+                        WHERE class_id = classes.document_id) AS student_list,
+                        false AS show
                          FROM classes
                          LEFT JOIN student_subjects on classes.document_id = student_subjects.class_id
                          

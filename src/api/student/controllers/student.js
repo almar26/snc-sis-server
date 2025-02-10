@@ -497,13 +497,15 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
       });
 
       // Update student course in the student-subject table
-      const result = await strapi.db.query("api::student-subject.student-subject").updateMany({
-        where: { student_id: documentid },
-        data: {
-          course_code: course_code,
-          course_description: course,
-        },
-      });
+      const result = await strapi.db
+        .query("api::student-subject.student-subject")
+        .updateMany({
+          where: { student_id: documentid },
+          data: {
+            course_code: course_code,
+            course_description: course,
+          },
+        });
 
       // if (change_course == true) {
       //   console.log("Course changed");
@@ -543,18 +545,50 @@ module.exports = createCoreController("api::student.student", ({ strapi }) => ({
             },
           });
       }
-    
-     
-        myPayload.data = result;
-        ctx.status = 200;
-        return ctx.send(myPayload);
-      
-        
-  
+
+      myPayload.data = result;
+      ctx.status = 200;
+      return ctx.send(myPayload);
+
       //return ctx.send(myPayload);
     } catch (err) {
       console.log("[updateStudentCourse] Error: ", err.message);
       return ctx.badRequest(err.message, err);
     }
+  },
+
+  // Update student school year where school_year is equal to null value
+  async updateAllStudentSY(ctx) {
+    try {
+      console.log("[updateAllStudentSY] Incoming Request");
+    let { semester, school_year, school_year_start, school_year_end } = ctx.request.body;
+    let myPayload = {
+      data: {},
+      message: "School Year Successsfully Updated!",
+      status: "success",
+    };
+
+    // Update all students school year
+    const result = await strapi.db.query("api::student.student").updateMany({
+      //where: { school_year: null },
+      data: {
+        semester: semester,
+        school_year: school_year,
+        // school_year: `${school_year_start}-${school_year_end}`,
+        // school_year_start: school_year_start,
+        // school_year_end: school_year_end,
+      },
+    });
+
+    if (result) {
+      myPayload.data = result;
+      ctx.status = 200;
+      return ctx.body = myPayload;
+    }
+    } catch (err) {
+      console.log("[updateAllStudentSY] Error: ", err.message);
+      return ctx.badRequest(err.message, err);
+    }
+    
   },
 }));

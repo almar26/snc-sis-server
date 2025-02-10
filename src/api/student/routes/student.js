@@ -79,6 +79,11 @@ const myExtraRoutes = [
         path: '/student/update-course/:documentid',
         handler: "student.updateStudentCourse"
     }, 
+    {
+        method: "PUT",
+        path: '/student/update-sy/all-students',
+        handler: "student.updateAllStudentSY"
+    }, 
 ]
 
 
