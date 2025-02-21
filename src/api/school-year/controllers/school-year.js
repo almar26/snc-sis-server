@@ -56,5 +56,25 @@ module.exports = createCoreController(
         return ctx.badRequest(err.message, err);
       }
     },
+
+    // Get all inactive school year
+    async getInactiveSchoolYear(ctx) {
+      try {
+        console.log("[getInactiveSchoolYear] Incoming Request");
+        const result = await strapi.db.query("api::school-year.school-year")
+        .findMany({
+          where: { active_sy: false },
+          orderBy: { school_year: "DESC"}
+        });
+
+        if (result) {
+          ctx.status = 200;
+          return ctx.body = result;
+        }
+      } catch (err) {
+        console.log("[getInactiveSchoolYear] Error: ", err.message);
+        return ctx.badRequest(err.message, err);
+      }
+    },
   })
 );

@@ -31,7 +31,12 @@ const myExtraRoutes = [
         method: "GET",
         path: "/school-year/list",
         handler: 'school-year.getAllSchoolYear'
-    }
+    },
+    {
+        method: 'GET',
+        path: '/school-year/inactive',
+        handler: 'school-year.getInactiveSchoolYear'
+    },
 ]
 
 
