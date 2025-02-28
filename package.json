@@ -11,9 +11,10 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-cloud": "5.0.2",
-    "@strapi/plugin-users-permissions": "5.0.2",
-    "@strapi/strapi": "5.0.2",
+    "@strapi/plugin-cloud": "5.10.4",
+    "@strapi/plugin-users-permissions": "5.10.4",
+    "@strapi/strapi": "5.10.4",
+    "bcryptjs": "^3.0.2",
     "csv-parser": "^3.0.0",
     "csvtojson": "^2.0.10",
     "pg": "8.8.0",

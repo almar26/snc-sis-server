@@ -52,6 +52,16 @@ const myExtraRoutes = [
         method: 'GET',
         path: '/teacher-acccount/teachers-list',
         handler: 'teacher-account.getTeachersList'
+    },
+    {
+        method: 'POST',
+        path: '/teacher-acccount/change-password',
+        handler: 'teacher-account.changeUserPassword',
+        config: {
+            find: {
+                auth: true
+            }
+        }
     }
 ]
 

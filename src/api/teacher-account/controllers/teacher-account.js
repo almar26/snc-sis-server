@@ -4,6 +4,7 @@
  * teacher-account controller
  */
 const short = require("short-uuid");
+const bcrypt = require("bcryptjs");
 // @ts-ignore
 const { createCoreController } = require("@strapi/strapi").factories;
 
@@ -257,27 +258,30 @@ module.exports = createCoreController(
         console.log("[getTeacherDetails] Incoming Request");
         const { teacherid } = ctx.params;
 
-        const result = await strapi.entityService.findMany("api::teacher-account.teacher-account", {
-          filters: {
-            teacher_id: { $eq: teacherid },
+        const result = await strapi.entityService.findMany(
+          "api::teacher-account.teacher-account",
+          {
+            filters: {
+              teacher_id: { $eq: teacherid },
+            },
           }
-        })
+        );
 
         if (result) {
           console.log(result);
           ctx.status = 200;
-          return ctx.body = result;
+          return (ctx.body = result);
         }
-      } catch(err) {
+      } catch (err) {
         console.log("[getTeacherDetails] Error: ", err.message);
         return ctx.badRequest(err.message, err);
       }
     },
 
     // Get all teacher's list
-   async getTeachersList(ctx) {
-    try {
-      console.log("[getTeachersList] Incoming Request");
+    async getTeachersList(ctx) {
+      try {
+        console.log("[getTeachersList] Incoming Request");
         const { department } = ctx.params;
 
         const result = await strapi.entityService
@@ -285,14 +289,14 @@ module.exports = createCoreController(
             filters: {
               //department: { $eq: department },
               //role_view: { $eq: "teacher" },
-             $or: [
-              {
-                role_view: { $eq: "teacher" },
-              },
-              {
-                role_view: { $eq: "dean" },
-              }
-             ]
+              $or: [
+                {
+                  role_view: { $eq: "teacher" },
+                },
+                {
+                  role_view: { $eq: "dean" },
+                },
+              ],
             },
           })
           .catch((err) => {
@@ -303,10 +307,71 @@ module.exports = createCoreController(
           ctx.status = 200;
           return (ctx.body = result);
         }
-    } catch (err) {
-      console.log("[getTeachersList] Error: ", err.message);
-      return ctx.badRequest(err.message, err);
-    }
-   }
+      } catch (err) {
+        console.log("[getTeachersList] Error: ", err.message);
+        return ctx.badRequest(err.message, err);
+      }
+    },
+
+    // Change User Password
+    async changeUserPassword(ctx) {
+      try {
+        console.log("[changeUserPassword] Incoming Request");
+        // const { userId, newPassword } = ctx.request.body;
+        const { currentPassword, password, passwordConfirmation } =
+          ctx.request.body;
+        const user = ctx.state.user;
+
+        // if (!user) {
+        //   return ctx.unauthorized("User not authenticated");
+        // }
+
+        // // Verify the current password
+        // const validPassword = await strapi.plugins[
+        //   "users-permissions"
+        // ].services.user.validatePassword(currentPassword, user.password);
+
+        // if (!validPassword) {
+        //   return ctx.badRequest("Current password is incorrect");
+        // }
+
+        // if (password !== passwordConfirmation) {
+        //   return ctx.badRequest("Passwords do not match");
+        // }
+
+        // Hash the new password
+        const hashedPassword = await strapi.plugins["users-permissions"].services.user.hashPassword({ password });
+
+        // Update the user password
+        await strapi.entityService.update(
+          "plugin::users-permissions.user",
+          user.id,
+          {
+            data: { password: hashedPassword },
+          }
+        );
+
+        ctx.send({ message: "Password updated successfully" });
+
+        // const myPayload = {
+        //   data: {},
+        //   message: "Password successfully updated!",
+        //   status: "success",
+        // };
+
+        // // Hash the new password
+        // const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // // Update user password
+        // await strapi.entityService.update("plugin::users-permissions.user", userId, {
+        //   data: { password: hashedPassword },
+        // })
+
+        //return ctx.send(myPayload);
+      } catch (err) {
+        console.log("[changeUserPassword] Incoming Request");
+        return ctx.badRequest(err.message, err);
+      }
+    },
   })
 );
