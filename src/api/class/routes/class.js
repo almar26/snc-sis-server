@@ -71,6 +71,11 @@ const myExtraRoutes = [
         method: "GET",
         path: '/class/list/student-list',
         handler: "class.getClassStudents"
+    },
+    {
+        method: "GET",
+        path: '/class/list/student-list/classes',
+        handler: "class.getClassStudentGrade"
     }
 ]
 
