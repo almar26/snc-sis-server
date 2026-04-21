@@ -44,12 +44,16 @@ module.exports = createCoreController(
         console.log("[getAllSchoolYear] Incoming Request");
         const result = await strapi.db.query("api::school-year.school-year")
         .findMany({
+          select: ['school_year'],
           orderBy: { createdAt: "DESC"}
         });
 
         if (result) {
-          ctx.status = 200;
-          return ctx.body = result;
+          const uniqueSchoolYear = Array.from(
+            new Map(result.map(item => [item.school_year, item])).values()
+          )
+          //ctx.status = 200;
+          return uniqueSchoolYear;
         }
       } catch (err) {
         console.log("[getActiveSchoolYear] Error: ", err.message);
