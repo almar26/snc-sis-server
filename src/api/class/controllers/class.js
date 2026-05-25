@@ -409,5 +409,75 @@ module.exports = createCoreController("api::class.class", ({ strapi }) => ({
       console.log("[getClassStudentGrade] Error: ", err.message);
       return ctx.badRequest(err.message, err);
     }
+  },
+
+  async finalizeSemester(ctx) {
+    try {
+      const { semester, school_year } = ctx.request.body
+
+      if (!semester || !school_year) {
+        return ctx.badRequest("Semester and school year are required")
+      }
+
+      const myQuery = `UPDATE classes SET finalize = true, updated_at = NOW()
+                        WHERE semester = ? AND school_year = ?
+                        RETURNING
+                          id,
+                          document_id,
+                          subject_description,
+                          course_code,
+                          teacher_name,
+                          semester,
+                          school_year`;
+
+      const result = await strapi.db.connection.raw(myQuery, [semester, school_year])
+
+      return ctx.send({
+        message: 'Classes finalized successfully.',
+        semester,
+        school_year,
+        total_finalized: result.rows?.length || 0,
+        data: result.rows || []
+      })
+
+    } catch (err) {
+      console.error('Finalize semester error:', err)
+      return ctx.internalServerError('Failed to finalize semester.')
+    }
+  },
+
+  async unFinalizeSemester(ctx) {
+    try {
+      const { semester, school_year } = ctx.request.body
+
+      if (!semester || !school_year) {
+        return ctx.badRequest("Semester and school year are required")
+      }
+
+      const myQuery = `UPDATE classes SET finalize = false, updated_at = NOW()
+                        WHERE semester = ? AND school_year = ?
+                        RETURNING
+                          id,
+                          document_id,
+                          subject_description,
+                          course_code,
+                          teacher_name,
+                          semester,
+                          school_year`;
+
+      const result = await strapi.db.connection.raw(myQuery, [semester, school_year])
+
+      return ctx.send({
+        message: 'Classes unfinalized successfully.',
+        semester,
+        school_year,
+        total_finalized: result.rows?.length || 0,
+        data: result.rows || []
+      })
+
+    } catch (err) {
+      console.error('Finalize semester error:', err)
+      return ctx.internalServerError('Failed to finalize semester.')
+    }
   }
 }));

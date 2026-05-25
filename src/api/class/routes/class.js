@@ -76,6 +76,16 @@ const myExtraRoutes = [
         method: "GET",
         path: '/class/list/student-list/classes',
         handler: "class.getClassStudentGrade"
+    },
+    {
+        method: "POST",
+        path: '/classes/finalize-semester',
+        handler: 'class.finalizeSemester'
+    },
+    {
+        method: "POST",
+        path: '/classes/unfinalize-semester',
+        handler: 'class.unFinalizeSemester'
     }
 ]
 
