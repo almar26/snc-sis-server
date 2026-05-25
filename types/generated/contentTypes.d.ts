@@ -656,6 +656,7 @@ export interface ApiStudentSubjectStudentSubject
   };
   attributes: {
     class_id: Schema.Attribute.String;
+    clearance_number: Schema.Attribute.String;
     course_code: Schema.Attribute.String;
     course_description: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;

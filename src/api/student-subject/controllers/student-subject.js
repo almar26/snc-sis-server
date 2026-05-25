@@ -1,8 +1,5 @@
 "use strict";
 
-const student = require("../../student/controllers/student");
-const teacherAccount = require("../../teacher-account/controllers/teacher-account");
-
 /**
  * student-subject controller
  */
@@ -120,7 +117,7 @@ module.exports = createCoreController(
 
         let myQuery = `SELECT student_subjects.document_id, student_subjects.class_id, student_subjects.subject_code, student_subjects.student_id, student_subjects.student_no, students.last_name, 
                       students.first_name, students.middle_name, students.course, students.course_code, student_subjects.section,
-                      student_subjects.unit, student_subjects.grade, student_subjects.numeric_grade, student_subjects.remarks, student_subjects.incomplete, student_subjects.fda, student_subjects.dropped, student_subjects.udropped, student_subjects.semester,
+                      student_subjects.unit, student_subjects.grade, student_subjects.numeric_grade, student_subjects.remarks, student_subjects.clearance_number, student_subjects.incomplete, student_subjects.fda, student_subjects.dropped, student_subjects.udropped, student_subjects.semester,
                       student_subjects.school_year, student_subjects.teacher_id
                       FROM students
                       LEFT JOIN student_subjects on students.document_id = student_subjects.student_id
@@ -144,14 +141,17 @@ module.exports = createCoreController(
       try {
         console.log("[addSubjectGrade] Incoming Request");
         const { documentid } = ctx.params;
-        let { grade, numeric_grade, remarks, incomplete, fda, dropped } =
+        let { grade, numeric_grade, remarks, incomplete, fda, dropped, clearance_number } =
           ctx.request.body;
+
 
         let myPayload = {
           data: {},
           message: "Successfully added a grade",
           status: "success",
         };
+
+        console.log("Clearance Number: ", clearance_number)
 
         const result = await strapi.db
           .query("api::student-subject.student-subject")
@@ -161,6 +161,7 @@ module.exports = createCoreController(
               grade: grade,
               numeric_grade: numeric_grade,
               remarks: remarks,
+              clearance_number: clearance_number,
               incomplete: incomplete,
               fda: fda,
               dropped: dropped,
@@ -224,7 +225,7 @@ module.exports = createCoreController(
         // }
 
         const myQuery = `SELECT DISTINCT ON (student_subjects.subject_code) student_subjects.id, student_subjects.document_id, student_subjects.student_id, student_subjects.student_no, student_subjects.course_code, student_subjects.course_description,
-                        student_subjects.section, student_subjects.subject_code, subjects.title, student_subjects.unit, student_subjects.grade, student_subjects.numeric_grade, student_subjects.remarks,
+                        student_subjects.section, student_subjects.subject_code, subjects.title, student_subjects.unit, student_subjects.grade, student_subjects.numeric_grade, student_subjects.remarks, student_subjects.clearance_number,
                         student_subjects.school_year, student_subjects.semester, student_subjects.finalize_grade, student_subjects.class_id, student_subjects.teacher_id,
                         json_object(ARRAY['teacher_id', 'faculty_no', 'last_name', 'first_name', 'middle_name', 'department'], ARRAY[teacher_accounts.teacher_id, teacher_accounts.faculty_no, 
                         teacher_accounts.last_name, teacher_accounts.first_name, teacher_accounts.middle_name, teacher_accounts.department]) AS teacher_details, student_subjects.created_at

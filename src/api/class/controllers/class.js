@@ -384,7 +384,8 @@ module.exports = createCoreController("api::class.class", ({ strapi }) => ({
                         'course_description', students.course,
                         'grade', student_subjects.grade,
                         'numeric_grade', student_subjects.numeric_grade,
-                        'remarks', student_subjects.remarks
+                        'remarks', student_subjects.remarks,
+                        'clearance_number', student_subjects.clearance_number
                         )
                         FROM student_subjects 
                         LEFT JOIN students on student_subjects.student_id = students.document_id

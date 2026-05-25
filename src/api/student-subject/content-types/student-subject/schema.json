@@ -82,6 +82,9 @@
     "udropped": {
       "type": "boolean",
       "default": true
+    },
+    "clearance_number": {
+      "type": "string"
     }
   }
 }
